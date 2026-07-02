@@ -18,6 +18,8 @@ type Props = {
   external?: boolean;
   onClick?: () => void;
   className?: string;
+  type?: "button" | "submit";
+  disabled?: boolean;
 };
 
 export function GlowButton({
@@ -27,6 +29,8 @@ export function GlowButton({
   external,
   onClick,
   className = "",
+  type = "button",
+  disabled,
 }: Props) {
   const cls = `${base} ${variants[variant]} ${className}`;
   if (href) {
@@ -44,7 +48,12 @@ export function GlowButton({
     );
   }
   return (
-    <button type="button" onClick={onClick} className={cls}>
+    <button
+      type={type}
+      onClick={onClick}
+      disabled={disabled}
+      className={`${cls} disabled:cursor-not-allowed disabled:opacity-50`}
+    >
       {children}
     </button>
   );
