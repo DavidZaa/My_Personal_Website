@@ -138,6 +138,10 @@ body {
   .live-dot { animation: none; }
 }
 
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
 /* Prose styling for blog posts */
 .prose-hud {
   line-height: 1.75;
