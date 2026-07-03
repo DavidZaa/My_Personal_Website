@@ -4,38 +4,101 @@ import { useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { GlowButton } from "@/components/ui/GlowButton";
 import { Decrypt } from "@/components/voyage/Decrypt";
+import { HoloModal } from "@/components/voyage/HoloModal";
 import { profile } from "@/lib/content/profile";
 
-const TABS = ["Mission Log", "Publications", "Awards", "Systems", "Clubs"] as const;
+const TABS = ["Experiences", "Publications", "Awards", "Systems", "Clubs"] as const;
 type Tab = (typeof TABS)[number];
 
-function MissionLog() {
+type Experience = (typeof profile.experience)[number];
+type Award = (typeof profile.awards)[number];
+
+type ModalRecord =
+  | { kind: "experience"; data: Experience }
+  | { kind: "award"; data: Award };
+
+/** Trim to a teaser that always ends in an ellipsis. */
+function teaser(text: string, max = 84): string {
+  const cut = text.slice(0, max);
+  return `${cut.slice(0, Math.max(cut.lastIndexOf(" "), 40))}…`;
+}
+
+function Experiences({ onOpen }: { onOpen: (r: ModalRecord) => void }) {
   return (
-    <div className="relative space-y-6 border-l border-glow-b/30 pl-5">
+    <ul className="space-y-2">
       {profile.experience.map((job) => (
-        <div key={job.org} className="relative">
-          <span
-            aria-hidden
-            className="absolute -left-[1.6rem] top-1.5 h-2 w-2 rounded-full bg-glow-b shadow-[0_0_10px_rgba(34,211,238,0.9)]"
-          />
-          <div className="flex flex-wrap items-baseline justify-between gap-x-4">
-            <h4 className="text-sm font-semibold text-[#e6fbff]">{job.org}</h4>
-            <span className="font-mono text-[10px] text-glow-b/70">{job.period}</span>
-          </div>
-          <p className="mt-0.5 text-xs text-glow-b">{job.role}</p>
-          <ul className="mt-1.5 space-y-1">
-            {job.bullets.map((b) => (
-              <li key={b} className="text-xs leading-relaxed text-ink-dim">{b}</li>
-            ))}
-          </ul>
-        </div>
+        <li key={job.org}>
+          <button
+            type="button"
+            onClick={() => onOpen({ kind: "experience", data: job })}
+            className="w-full rounded-sm border border-glow-b/20 p-3 text-left transition-colors hover:border-glow-b/60 hover:bg-glow-b/5"
+          >
+            <div className="flex flex-wrap items-baseline justify-between gap-x-4">
+              <span className="text-sm font-semibold text-[#e6fbff]">{job.org}</span>
+              <span className="font-mono text-[10px] text-glow-b/70">{job.period}</span>
+            </div>
+            <p className="mt-0.5 text-xs text-glow-b">{job.role}</p>
+            <p className="mt-1 text-[11px] leading-relaxed text-ink-dim">
+              {teaser(job.bullets[0])}
+            </p>
+            <span className="mt-1.5 inline-block font-mono text-[9px] uppercase tracking-widest text-glow-b/60">
+              tap to expand record
+            </span>
+          </button>
+        </li>
       ))}
-      <div className="relative">
-        <span aria-hidden className="absolute -left-[1.6rem] top-1.5 h-2 w-2 rounded-full bg-glow-b/50" />
-        <h4 className="text-sm font-semibold text-[#e6fbff]">{profile.education[0].school}</h4>
+      <li className="rounded-sm border border-glow-b/10 p-3">
+        <p className="text-sm font-semibold text-[#e6fbff]">{profile.education[0].school}</p>
         <p className="mt-0.5 text-xs text-ink-dim">{profile.education[0].degree}</p>
-      </div>
-    </div>
+      </li>
+    </ul>
+  );
+}
+
+function Awards({ onOpen }: { onOpen: (r: ModalRecord) => void }) {
+  return (
+    <ul className="grid gap-2 sm:grid-cols-2">
+      {profile.awards.map((a) => {
+        const expandable = Boolean(a.detail || ("highlights" in a && a.highlights));
+        const body = (
+          <>
+            <div className="flex items-start gap-2">
+              <span aria-hidden className="mt-px text-glow-warm">✦</span>
+              <div className="min-w-0">
+                <p className="text-xs font-semibold leading-snug text-[#e6fbff]">
+                  {a.title}
+                </p>
+                {a.meta && (
+                  <p className="mt-0.5 truncate font-mono text-[10px] text-glow-b/70">
+                    {a.meta}
+                  </p>
+                )}
+                {a.detail && (
+                  <p className="mt-1 text-[11px] leading-snug text-ink-dim">
+                    {teaser(a.detail, 56)}
+                  </p>
+                )}
+              </div>
+            </div>
+          </>
+        );
+        return (
+          <li key={a.title}>
+            {expandable ? (
+              <button
+                type="button"
+                onClick={() => onOpen({ kind: "award", data: a })}
+                className="h-full w-full rounded-sm border border-glow-b/20 p-3 text-left transition-colors hover:border-glow-b/60 hover:bg-glow-b/5"
+              >
+                {body}
+              </button>
+            ) : (
+              <div className="h-full rounded-sm border border-glow-b/10 p-3">{body}</div>
+            )}
+          </li>
+        );
+      })}
+    </ul>
   );
 }
 
@@ -65,72 +128,6 @@ function Publications() {
         </ul>
       </div>
     </div>
-  );
-}
-
-function Awards() {
-  const [openLog, setOpenLog] = useState<string | null>(null);
-
-  return (
-    <ul className="grid gap-3 sm:grid-cols-2">
-      {profile.awards.map((a) => {
-        const hasLog = "highlights" in a && a.highlights && a.highlights.length > 0;
-        const open = openLog === a.title;
-        return (
-          <li
-            key={a.title}
-            className={`rounded-sm border border-glow-b/20 p-3 transition-colors hover:border-glow-b/50 ${
-              hasLog ? "sm:col-span-2" : ""
-            }`}
-          >
-            <div className="flex items-start gap-2">
-              <span aria-hidden className="mt-px text-glow-warm">✦</span>
-              <div className="min-w-0 flex-1">
-                <p className="text-xs font-semibold leading-snug text-[#e6fbff]">
-                  {a.title}
-                </p>
-                {a.meta && (
-                  <p className="mt-0.5 font-mono text-[10px] text-glow-b/70">
-                    {a.meta}
-                  </p>
-                )}
-                {a.detail && (
-                  <p className="mt-1 text-[11px] leading-relaxed text-ink-dim">
-                    {a.detail}
-                  </p>
-                )}
-                {hasLog && (
-                  <>
-                    <button
-                      type="button"
-                      onClick={() => setOpenLog(open ? null : a.title)}
-                      aria-expanded={open}
-                      className="mt-2 font-mono text-[10px] uppercase tracking-widest text-glow-b hover:underline"
-                    >
-                      {open ? "▾ collapse trophy log" : "▸ open trophy log"} ·{" "}
-                      {a.highlights!.length} records
-                    </button>
-                    {open && (
-                      <ul className="mt-2 grid gap-1 border-t border-glow-b/20 pt-2 sm:grid-cols-2">
-                        {a.highlights!.map((h) => (
-                          <li
-                            key={h}
-                            className="flex items-start gap-1.5 text-[11px] leading-relaxed text-ink-dim"
-                          >
-                            <span aria-hidden className="text-glow-b/60">▹</span>
-                            {h}
-                          </li>
-                        ))}
-                      </ul>
-                    )}
-                  </>
-                )}
-              </div>
-            </div>
-          </li>
-        );
-      })}
-    </ul>
   );
 }
 
@@ -165,14 +162,6 @@ function Clubs() {
     </div>
   );
 }
-
-const PANELS: Record<Tab, () => React.JSX.Element> = {
-  "Mission Log": MissionLog,
-  Publications: Publications,
-  Awards: Awards,
-  Systems: Systems,
-  Clubs: Clubs,
-};
 
 /** Rows of storage containers receding along one wall of the hold. */
 function ContainerWall({ side }: { side: "left" | "right" }) {
@@ -233,14 +222,14 @@ function HoloEmitter() {
 }
 
 export function DossierSection() {
-  const [tab, setTab] = useState<Tab>("Mission Log");
+  const [tab, setTab] = useState<Tab>("Experiences");
+  const [record, setRecord] = useState<ModalRecord | null>(null);
   const reduced = useReducedMotion();
-  const Panel = PANELS[tab];
 
   return (
     <section id="dossier" className="scroll-mt-16">
       {/* The cargo hold: its own room, deliberately not open space */}
-      <div className="relative overflow-hidden border-y border-[#12262c] bg-[#060b0e] py-16">
+      <div className="relative overflow-hidden border-b border-[#12262c] bg-[#060b0e] py-16">
         {/* back-wall fog + overhead light shafts */}
         <div
           aria-hidden
@@ -333,7 +322,7 @@ export function DossierSection() {
             <HoloEmitter />
           </motion.div>
 
-          {/* Records hologram: the tab console projected into the room */}
+          {/* Records hologram: fixed height, scrolls internally */}
           <motion.div
             initial={reduced ? false : { opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -362,17 +351,72 @@ export function DossierSection() {
             <div
               key={tab}
               role="tabpanel"
-              className={`holo-panel min-h-[380px] rounded-sm p-6 ${reduced ? "" : "holo-materialize holo-flicker"}`}
+              className={`holo-panel h-[480px] overflow-y-auto rounded-sm p-6 ${
+                reduced ? "" : "holo-materialize holo-flicker"
+              }`}
             >
               <p className="hud-label mb-4 !text-glow-b/60">
                 hologram record · {tab.toLowerCase()}
               </p>
-              <Panel />
+              {tab === "Experiences" && <Experiences onOpen={setRecord} />}
+              {tab === "Publications" && <Publications />}
+              {tab === "Awards" && <Awards onOpen={setRecord} />}
+              {tab === "Systems" && <Systems />}
+              {tab === "Clubs" && <Clubs />}
             </div>
             <HoloEmitter />
           </motion.div>
         </div>
       </div>
+
+      {/* Expanded record popup */}
+      <HoloModal
+        open={record !== null}
+        title={
+          record?.kind === "experience"
+            ? record.data.org
+            : (record?.data.title ?? "")
+        }
+        meta={
+          record?.kind === "experience"
+            ? `${record.data.role} · ${record.data.period} · ${record.data.location}`
+            : record?.data.meta
+        }
+        onClose={() => setRecord(null)}
+      >
+        {record?.kind === "experience" && (
+          <ul className="space-y-2.5">
+            {record.data.bullets.map((b) => (
+              <li key={b} className="flex items-start gap-2 text-sm leading-relaxed text-ink-dim">
+                <span aria-hidden className="mt-1 text-glow-b/60">▹</span>
+                {b}
+              </li>
+            ))}
+          </ul>
+        )}
+        {record?.kind === "award" && (
+          <div className="space-y-4">
+            {record.data.detail && (
+              <p className="text-sm leading-relaxed text-ink-dim">{record.data.detail}</p>
+            )}
+            {"highlights" in record.data && record.data.highlights && (
+              <div>
+                <p className="hud-label mb-2 !text-glow-b/60">
+                  trophy log · {record.data.highlights.length} records
+                </p>
+                <ul className="grid gap-1.5 sm:grid-cols-2">
+                  {record.data.highlights.map((h) => (
+                    <li key={h} className="flex items-start gap-1.5 text-xs leading-relaxed text-ink-dim">
+                      <span aria-hidden className="text-glow-b/60">▹</span>
+                      {h}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
+        )}
+      </HoloModal>
     </section>
   );
 }

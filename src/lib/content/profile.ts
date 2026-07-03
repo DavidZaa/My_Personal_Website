@@ -3,6 +3,15 @@
  * Update this file when the resume changes.
  */
 
+export interface AwardEntry {
+  title: string;
+  /** date and/or issuer line */
+  meta?: string;
+  detail?: string;
+  /** itemized sub-achievements (e.g. the VEX trophy log) */
+  highlights?: readonly string[];
+}
+
 export const profile = {
   name: "David Zhang",
   title: "CS & Math of Computation @ UCLA",
@@ -209,7 +218,7 @@ export const profile = {
     {
       title: "Piano Certificate of Merit — Level 9",
     },
-  ],
+  ] as readonly AwardEntry[],
   skills: [
     "Python",
     "C++",

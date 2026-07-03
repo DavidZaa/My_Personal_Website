@@ -2,6 +2,7 @@ import { BootSequence } from "@/components/boot/BootSequence";
 import { Hero } from "@/components/hero/Hero";
 import { Starfield } from "@/components/voyage/Starfield";
 import { Waypoint } from "@/components/voyage/Waypoint";
+import { DescentTransition } from "@/components/voyage/DescentTransition";
 import { DossierSection } from "@/components/voyage/DossierSection";
 import { PayloadBay } from "@/components/voyage/PayloadBay";
 import { TransmissionSection } from "@/components/voyage/TransmissionSection";
@@ -41,7 +42,7 @@ export default async function Home() {
       <Hero />
 
       <div className="space-y-10 pb-10">
-        <Waypoint index={2} label="crew dossier" />
+        <DescentTransition />
         <DossierSection />
 
         <Waypoint index={3} label="payload bay" />
