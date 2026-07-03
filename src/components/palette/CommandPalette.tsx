@@ -136,7 +136,7 @@ export function CommandPalette() {
             value="sudo hire-me"
             onSelect={() =>
               setEgg(
-                "ACCESS GRANTED. Candidate profile: ships fast, tests what matters, USACO Platinum reflexes, already builds his own mission control. Recommend immediate onboarding → davidzha77@g.ucla.edu",
+                "If you would like to contact me, email me at davidzha77@g.ucla.edu",
               )
             }
             className="cursor-pointer rounded-sm px-3 py-2 font-mono text-sm text-glow-b aria-selected:bg-glow-a/20 aria-selected:text-white"

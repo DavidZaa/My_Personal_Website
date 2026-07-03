@@ -66,9 +66,6 @@ export function Hero() {
             className="max-w-3xl text-4xl font-semibold leading-tight glow-text sm:text-6xl"
           >
             {profile.name}
-            <span className="text-gradient block text-2xl font-normal sm:text-3xl">
-              {profile.tagline}
-            </span>
           </motion.h1>
           <motion.div
             initial={{ opacity: 0, y: 14 }}

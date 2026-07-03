@@ -15,9 +15,8 @@ export interface AwardEntry {
 export const profile = {
   name: "David Zhang",
   title: "CS & Math of Computation @ UCLA",
-  tagline: "builder of odd, glowing things",
   location: "Los Angeles, CA",
-  bio: "I study Computer Science & Mathematics of Computation at UCLA (with a linguistics minor), do research on sparse estimation for LLM optimization, and spend the rest of my time building things I wish existed.",
+  bio: "I study Computer Science & Mathematics of Computation at UCLA, with a minor in Linguistics.",
   links: {
     github: "https://github.com/DavidZaa",
     linkedin: "https://www.linkedin.com/in/davidzzzhang/",

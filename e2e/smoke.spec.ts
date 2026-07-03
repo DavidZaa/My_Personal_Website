@@ -42,10 +42,10 @@ test("/about redirects into the dossier section", async ({ page }) => {
 test("landing hangar cycles payloads through the bay doors", async ({ page }) => {
   await page.goto("/");
   await page.locator("#payload").scrollIntoViewIfNeeded();
-  await expect(page.getByRole("heading", { name: "sparseeval" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "LatentMode GEPA" })).toBeVisible();
   await expect(page.getByText("payload 01", { exact: false })).toBeVisible();
   await page.getByRole("button", { name: "Next project" }).click();
-  await expect(page.getByRole("heading", { name: "LatentMode GEPA" })).toBeVisible({
+  await expect(page.getByRole("heading", { name: "BrainBow" })).toBeVisible({
     timeout: 5000,
   });
   await expect(page.getByText("payload 02", { exact: false })).toBeVisible();
