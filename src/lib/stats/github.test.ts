@@ -23,6 +23,10 @@ const payload: GraphqlViewer = {
     ],
   },
   followers: { totalCount: 42 },
+  monthly: {
+    totalCommitContributions: 31,
+    contributionCalendar: { totalContributions: 48 },
+  },
   contributionsCollection: {
     totalCommitContributions: 500,
     contributionCalendar: {
@@ -49,6 +53,8 @@ describe("mapGithubGraphql", () => {
     expect(stats.followers).toBe(42);
     expect(stats.totalContributions).toBe(700);
     expect(stats.totalCommits).toBe(500);
+    expect(stats.monthlyContributions).toBe(48);
+    expect(stats.monthlyCommits).toBe(31);
   });
 
   it("merges language bytes across repos and computes percents", () => {

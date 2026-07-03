@@ -168,6 +168,8 @@ function synthCalendar(): GithubStats["contributionCalendar"] {
 export const demoGithubStats: GithubStats = {
   totalContributions: 1287,
   totalCommits: 943,
+  monthlyContributions: 112,
+  monthlyCommits: 84,
   publicRepos: 14,
   totalStars: 87,
   followers: 42,

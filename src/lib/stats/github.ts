@@ -24,6 +24,10 @@ export interface GraphqlViewer {
       weeks: GraphqlWeek[];
     };
   };
+  monthly: {
+    totalCommitContributions: number;
+    contributionCalendar: { totalContributions: number };
+  };
 }
 
 function levelFor(count: number): 0 | 1 | 2 | 3 | 4 {
@@ -70,6 +74,8 @@ export function mapGithubGraphql(user: GraphqlViewer): GithubStats {
   return {
     totalContributions: calendar.totalContributions,
     totalCommits: user.contributionsCollection.totalCommitContributions,
+    monthlyContributions: user.monthly.contributionCalendar.totalContributions,
+    monthlyCommits: user.monthly.totalCommitContributions,
     publicRepos: user.repositories.totalCount,
     totalStars,
     followers: user.followers.totalCount,
@@ -79,7 +85,7 @@ export function mapGithubGraphql(user: GraphqlViewer): GithubStats {
 }
 
 const QUERY = `
-query($login: String!) {
+query($login: String!, $monthAgo: DateTime!, $now: DateTime!) {
   user(login: $login) {
     repositories(first: 100, ownerAffiliations: OWNER, privacy: PUBLIC, orderBy: {field: STARGAZERS, direction: DESC}) {
       totalCount
@@ -97,6 +103,10 @@ query($login: String!) {
         totalContributions
         weeks { contributionDays { date contributionCount } }
       }
+    }
+    monthly: contributionsCollection(from: $monthAgo, to: $now) {
+      totalCommitContributions
+      contributionCalendar { totalContributions }
     }
   }
 }`;
@@ -116,7 +126,14 @@ export async function fetchGithubStats(): Promise<GithubStats | null> {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ query: QUERY, variables: { login: GITHUB_USERNAME } }),
+        body: JSON.stringify({
+          query: QUERY,
+          variables: {
+            login: GITHUB_USERNAME,
+            monthAgo: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString(),
+            now: new Date().toISOString(),
+          },
+        }),
       });
       if (!res.ok) return null;
       const body = await res.json();
@@ -132,6 +149,8 @@ export async function fetchGithubStats(): Promise<GithubStats | null> {
     return {
       totalContributions: 0,
       totalCommits: 0,
+      monthlyContributions: 0,
+      monthlyCommits: 0,
       publicRepos: u.public_repos ?? 0,
       totalStars: 0,
       followers: u.followers ?? 0,

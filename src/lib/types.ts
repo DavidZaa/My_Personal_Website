@@ -57,6 +57,9 @@ export interface GuestbookEntry {
 export interface GithubStats {
   totalContributions: number;
   totalCommits: number;
+  /** contributions/commits in the trailing 30 days */
+  monthlyContributions: number;
+  monthlyCommits: number;
   publicRepos: number;
   totalStars: number;
   followers: number;

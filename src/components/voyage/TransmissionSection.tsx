@@ -282,7 +282,7 @@ export function TransmissionSection({ posts }: { posts: Post[] }) {
           <p className="hud-label mb-2">star charts · captain&apos;s log</p>
           <h2 className="text-3xl font-semibold glow-text sm:text-5xl">David&apos;s Log</h2>
           <p className="mt-2 text-sm text-ink-dim">
-            Every beacon is a post I&apos;ve written — chart a course to one.
+            These are my blog posts — click one to read it.
           </p>
         </div>
 

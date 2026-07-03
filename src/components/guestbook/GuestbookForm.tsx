@@ -67,7 +67,7 @@ export function GuestbookForm({ configured }: { configured: boolean }) {
     return (
       <div className="flex flex-col items-start gap-3">
         <p className="text-sm text-ink-dim">
-          Sign in with Google to leave a signal.
+          Sign in with Google to leave a comment.
         </p>
         <GlowButton onClick={signIn}>Sign in with Google</GlowButton>
       </div>
@@ -77,7 +77,7 @@ export function GuestbookForm({ configured }: { configured: boolean }) {
   return (
     <form onSubmit={submit} className="space-y-3">
       <label htmlFor="gb-message" className="hud-label block">
-        compose signal
+        leave comment
       </label>
       <textarea
         id="gb-message"

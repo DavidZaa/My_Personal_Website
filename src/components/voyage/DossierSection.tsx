@@ -7,7 +7,7 @@ import { Decrypt } from "@/components/voyage/Decrypt";
 import { HoloModal } from "@/components/voyage/HoloModal";
 import { profile } from "@/lib/content/profile";
 
-const TABS = ["Experiences", "Publications", "Awards", "Systems", "Clubs"] as const;
+const TABS = ["Experiences", "Publications", "Awards", "Skills", "Clubs"] as const;
 type Tab = (typeof TABS)[number];
 
 type Experience = (typeof profile.experience)[number];
@@ -147,7 +147,7 @@ function Publications({ onOpen }: { onOpen: (r: ModalRecord) => void }) {
   );
 }
 
-function Systems() {
+function Skills() {
   return (
     <div className="space-y-6">
       <div>
@@ -423,7 +423,7 @@ export function DossierSection() {
               {tab === "Experiences" && <Experiences onOpen={setRecord} />}
               {tab === "Publications" && <Publications onOpen={setRecord} />}
               {tab === "Awards" && <Awards onOpen={setRecord} />}
-              {tab === "Systems" && <Systems />}
+              {tab === "Skills" && <Skills />}
               {tab === "Clubs" && <Clubs />}
             </div>
             <HoloEmitter />
