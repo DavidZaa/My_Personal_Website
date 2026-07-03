@@ -27,6 +27,14 @@ export function SiteFooter() {
             LinkedIn
           </a>
           <a
+            href={profile.links.instagram}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-ink-dim transition-colors hover:text-glow-b"
+          >
+            Instagram
+          </a>
+          <a
             href={`mailto:${profile.links.email}`}
             className="text-ink-dim transition-colors hover:text-glow-b"
           >

@@ -85,6 +85,25 @@ export default function AboutPage() {
         </div>
       </section>
 
+      {/* Campus involvement */}
+      <Reveal className="mt-16">
+        <p className="hud-label mb-4">active stations · ucla</p>
+        <div className="grid gap-5 md:grid-cols-3">
+          {profile.clubs.map((c) => (
+            <HudPanel key={c.org} className="h-full">
+              <h2 className="text-sm font-semibold">{c.org}</h2>
+              <p className="mt-0.5 text-xs text-glow-b">{c.role}</p>
+              <p className="mt-0.5 font-mono text-[10px] text-ink-dim">
+                {c.period}
+              </p>
+              <p className="mt-2.5 text-xs leading-relaxed text-ink-dim">
+                {c.detail}
+              </p>
+            </HudPanel>
+          ))}
+        </div>
+      </Reveal>
+
       {/* Publications & patents */}
       <div className="mt-16 grid gap-6 md:grid-cols-2">
         <Reveal>
@@ -143,6 +162,10 @@ export default function AboutPage() {
             ))}
           </div>
         </HudPanel>
+      </Reveal>
+
+      <Reveal className="mt-10">
+        <p className="text-center text-sm text-ink-dim">{profile.offDuty}</p>
       </Reveal>
     </div>
   );

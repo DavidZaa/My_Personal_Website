@@ -12,6 +12,7 @@ export const profile = {
   links: {
     github: "https://github.com/DavidZaa",
     linkedin: "https://www.linkedin.com/in/davidzzzhang/",
+    instagram: "https://www.instagram.com/daviddzhanggg/",
     email: "davidzha77@g.ucla.edu",
   },
   education: [
@@ -71,6 +72,31 @@ export const profile = {
       ],
     },
   ],
+  clubs: [
+    {
+      org: "UCLA DataRes · DataBlog",
+      role: "Project Lead",
+      period: "Oct 2025 – Present",
+      detail:
+        "Leading a 5–6 member team analyzing MyLA311 open data — where and why LA residents wait longer for city services across request types, ZIP codes, and channels. Python/Colab pipeline + Plotly dashboard, findings written up for city operations.",
+    },
+    {
+      org: "Alumni Scholars Club",
+      role: "Financial Coordinator",
+      period: "Sep 2025 – Present",
+      detail:
+        "One of three coordinators securing program funding with campus sources and the UCLA Alumni Association; planning alumni workshops, seminars, tutoring, and mentorship events.",
+    },
+    {
+      org: "Bruin Review",
+      role: "Editorial Writer",
+      period: "Oct 2025 – Present",
+      detail:
+        "STEM-oriented opinion and analysis — AI ethics, data privacy, innovation policy — written to be readable by people who don't live in the terminal.",
+    },
+  ],
+  offDuty:
+    "Off duty: Level 9 Certificate of Merit pianist, linguistics nerd, and reliably the person who stays too long at the whiteboard.",
   publications: [
     {
       title: "Smart Collaborative Online Platform for Programming Education",
