@@ -142,6 +142,53 @@ body {
   to { transform: rotate(360deg); }
 }
 
+/* Holograms (crew dossier cargo hold) */
+.holo-panel {
+  position: relative;
+  background: linear-gradient(180deg, rgba(34, 211, 238, 0.1), rgba(34, 211, 238, 0.03));
+  border: 1px solid rgba(34, 211, 238, 0.35);
+  box-shadow:
+    0 0 44px rgba(34, 211, 238, 0.13),
+    inset 0 0 28px rgba(34, 211, 238, 0.05);
+  backdrop-filter: blur(6px);
+}
+.holo-panel::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent 0 3px,
+    rgba(34, 211, 238, 0.05) 3px 4px
+  );
+}
+
+@keyframes holo-flicker {
+  0%, 91%, 100% { opacity: 1; }
+  92% { opacity: 0.72; }
+  93% { opacity: 0.97; }
+  95% { opacity: 0.82; }
+  96% { opacity: 1; }
+}
+.holo-flicker { animation: holo-flicker 7s infinite; }
+
+@keyframes holo-materialize {
+  0% { opacity: 0; transform: scaleY(0.02); filter: brightness(3); }
+  55% { opacity: 1; transform: scaleY(1.015); filter: brightness(1.6); }
+  70% { transform: scaleY(0.995); }
+  100% { opacity: 1; transform: scaleY(1); filter: brightness(1); }
+}
+.holo-materialize {
+  animation: holo-materialize 0.45s ease-out;
+  transform-origin: bottom;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .holo-flicker { animation: none; }
+  .holo-materialize { animation: none; }
+}
+
 /* Guestbook signal stream: cards drift across like slow transmissions */
 @keyframes drift {
   from { transform: translateX(-110%); }

@@ -1,26 +1,26 @@
 "use client";
 
 import { useState } from "react";
-import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { GlowButton } from "@/components/ui/GlowButton";
 import { Decrypt } from "@/components/voyage/Decrypt";
 import { profile } from "@/lib/content/profile";
 
-const TABS = ["Mission Log", "Research", "Decorations", "Systems", "Stations"] as const;
+const TABS = ["Mission Log", "Publications", "Awards", "Systems", "Clubs"] as const;
 type Tab = (typeof TABS)[number];
 
 function MissionLog() {
   return (
-    <div className="relative space-y-6 border-l border-line pl-5">
+    <div className="relative space-y-6 border-l border-glow-b/30 pl-5">
       {profile.experience.map((job) => (
         <div key={job.org} className="relative">
           <span
             aria-hidden
-            className="absolute -left-[1.6rem] top-1.5 h-2 w-2 rounded-full bg-glow-a shadow-[0_0_10px_rgba(139,92,246,0.8)]"
+            className="absolute -left-[1.6rem] top-1.5 h-2 w-2 rounded-full bg-glow-b shadow-[0_0_10px_rgba(34,211,238,0.9)]"
           />
           <div className="flex flex-wrap items-baseline justify-between gap-x-4">
-            <h4 className="text-sm font-semibold">{job.org}</h4>
-            <span className="font-mono text-[10px] text-ink-dim">{job.period}</span>
+            <h4 className="text-sm font-semibold text-[#e6fbff]">{job.org}</h4>
+            <span className="font-mono text-[10px] text-glow-b/70">{job.period}</span>
           </div>
           <p className="mt-0.5 text-xs text-glow-b">{job.role}</p>
           <ul className="mt-1.5 space-y-1">
@@ -31,34 +31,34 @@ function MissionLog() {
         </div>
       ))}
       <div className="relative">
-        <span aria-hidden className="absolute -left-[1.6rem] top-1.5 h-2 w-2 rounded-full bg-glow-b/60" />
-        <h4 className="text-sm font-semibold">{profile.education[0].school}</h4>
+        <span aria-hidden className="absolute -left-[1.6rem] top-1.5 h-2 w-2 rounded-full bg-glow-b/50" />
+        <h4 className="text-sm font-semibold text-[#e6fbff]">{profile.education[0].school}</h4>
         <p className="mt-0.5 text-xs text-ink-dim">{profile.education[0].degree}</p>
       </div>
     </div>
   );
 }
 
-function Research() {
+function Publications() {
   return (
     <div className="space-y-6">
       <div>
-        <p className="hud-label mb-2.5">publications</p>
+        <p className="hud-label mb-2.5 !text-glow-b/70">publications</p>
         <ul className="space-y-2.5">
           {profile.publications.map((p) => (
             <li key={p.title}>
-              <p className="text-xs leading-snug">{p.title}</p>
+              <p className="text-xs leading-snug text-[#e6fbff]">{p.title}</p>
               <p className="mt-0.5 font-mono text-[10px] text-ink-dim">{p.venue}</p>
             </li>
           ))}
         </ul>
       </div>
       <div>
-        <p className="hud-label mb-2.5">us provisional patents</p>
+        <p className="hud-label mb-2.5 !text-glow-b/70">us provisional patents</p>
         <ul className="space-y-2.5">
           {profile.patents.map((p) => (
             <li key={p.id}>
-              <p className="text-xs leading-snug">{p.title}</p>
+              <p className="text-xs leading-snug text-[#e6fbff]">{p.title}</p>
               <p className="mt-0.5 font-mono text-[10px] text-ink-dim">{p.id}</p>
             </li>
           ))}
@@ -68,11 +68,11 @@ function Research() {
   );
 }
 
-function Decorations() {
+function Awards() {
   return (
     <ul className="grid gap-2.5 sm:grid-cols-2">
       {profile.awards.map((a) => (
-        <li key={a} className="flex items-start gap-2 text-xs leading-relaxed">
+        <li key={a} className="flex items-start gap-2 text-xs leading-relaxed text-[#e6fbff]">
           <span aria-hidden className="text-glow-warm">✦</span>
           {a}
         </li>
@@ -83,30 +83,27 @@ function Decorations() {
 
 function Systems() {
   return (
-    <div>
-      <div className="flex flex-wrap gap-1.5">
-        {profile.skills.map((s) => (
-          <span
-            key={s}
-            className="rounded-sm border border-line px-2 py-1 font-mono text-[11px] text-ink-dim transition-colors hover:border-glow-b/60 hover:text-ink"
-          >
-            {s}
-          </span>
-        ))}
-      </div>
-      <p className="mt-5 text-xs text-ink-dim">{profile.offDuty}</p>
+    <div className="flex flex-wrap gap-1.5">
+      {profile.skills.map((s) => (
+        <span
+          key={s}
+          className="rounded-sm border border-glow-b/30 px-2 py-1 font-mono text-[11px] text-ink-dim transition-colors hover:border-glow-b hover:text-[#e6fbff]"
+        >
+          {s}
+        </span>
+      ))}
     </div>
   );
 }
 
-function Stations() {
+function Clubs() {
   return (
     <div className="space-y-4">
       {profile.clubs.map((c) => (
         <div key={c.org}>
           <div className="flex flex-wrap items-baseline justify-between gap-x-4">
-            <h4 className="text-sm font-semibold">{c.org}</h4>
-            <span className="font-mono text-[10px] text-ink-dim">{c.period}</span>
+            <h4 className="text-sm font-semibold text-[#e6fbff]">{c.org}</h4>
+            <span className="font-mono text-[10px] text-glow-b/70">{c.period}</span>
           </div>
           <p className="mt-0.5 text-xs text-glow-b">{c.role}</p>
           <p className="mt-1 text-xs leading-relaxed text-ink-dim">{c.detail}</p>
@@ -118,11 +115,69 @@ function Stations() {
 
 const PANELS: Record<Tab, () => React.JSX.Element> = {
   "Mission Log": MissionLog,
-  Research: Research,
-  Decorations: Decorations,
+  Publications: Publications,
+  Awards: Awards,
   Systems: Systems,
-  Stations: Stations,
+  Clubs: Clubs,
 };
+
+/** Rows of storage containers receding along one wall of the hold. */
+function ContainerWall({ side }: { side: "left" | "right" }) {
+  const flip = side === "right";
+  return (
+    <div
+      aria-hidden
+      className="absolute top-[8%] hidden h-[70%] w-40 md:block"
+      style={{
+        [side]: "-0.5rem",
+        perspective: "700px",
+        maskImage: `linear-gradient(to ${flip ? "left" : "right"}, black 30%, transparent 95%)`,
+        WebkitMaskImage: `linear-gradient(to ${flip ? "left" : "right"}, black 30%, transparent 95%)`,
+      } as React.CSSProperties}
+    >
+      <div
+        className="grid h-full grid-rows-6 gap-2"
+        style={{ transform: `rotateY(${flip ? -38 : 38}deg)` }}
+      >
+        {Array.from({ length: 6 }, (_, r) => (
+          <div key={r} className="flex gap-2">
+            {Array.from({ length: 3 }, (_, c) => (
+              <div
+                key={c}
+                className="relative flex-1 rounded-[2px] border border-[#1b3a3f] bg-gradient-to-b from-[#0d1b20] to-[#081014]"
+              >
+                <span
+                  className="absolute right-1 top-1 h-1 w-1 rounded-full"
+                  style={{
+                    backgroundColor: (r * 3 + c) % 4 === 0 ? "#34d399" : "#1f4d55",
+                    boxShadow: (r * 3 + c) % 4 === 0 ? "0 0 4px #34d399" : "none",
+                  }}
+                />
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/** Projection cone + emitter that a hologram "stands" on. */
+function HoloEmitter() {
+  return (
+    <div aria-hidden className="relative mx-auto -mt-px flex h-14 w-full flex-col items-center">
+      <div
+        className="h-10 w-3/4"
+        style={{
+          clipPath: "polygon(0 0, 100% 0, 56% 100%, 44% 100%)",
+          background:
+            "linear-gradient(to bottom, rgba(34,211,238,0.16), rgba(34,211,238,0.5))",
+        }}
+      />
+      <div className="h-1.5 w-16 rounded-full bg-[#0d1b20] shadow-[0_0_18px_rgba(34,211,238,0.8)] ring-1 ring-glow-b/60" />
+    </div>
+  );
+}
 
 export function DossierSection() {
   const [tab, setTab] = useState<Tab>("Mission Log");
@@ -131,96 +186,139 @@ export function DossierSection() {
 
   return (
     <section id="dossier" className="scroll-mt-16">
-      <div className="mx-auto grid max-w-6xl gap-8 px-6 md:grid-cols-[300px_1fr]">
-        {/* Holographic ID card */}
-        <motion.div
-          initial={reduced ? false : { opacity: 0, x: -24 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true, margin: "-15%" }}
-          transition={{ duration: 0.6 }}
-          className="hud-panel scanlines relative self-start overflow-hidden rounded-sm p-6"
-        >
-          <div className="hud-label">personnel file · dz-01</div>
-          <div className="mt-5 flex h-28 w-28 items-center justify-center rounded-sm border border-line-bright bg-gradient-to-br from-glow-a/25 to-glow-b/15">
-            <span className="font-mono text-4xl font-semibold text-gradient">DZ</span>
-          </div>
-          <h3 className="mt-5 text-xl font-semibold glow-text">
-            <Decrypt text={profile.name} />
-          </h3>
-          <p className="mt-1 font-mono text-[11px] text-glow-b">
-            <Decrypt text={profile.title} charDelayMs={10} />
-          </p>
-          <dl className="mt-5 space-y-2 font-mono text-[11px]">
-            <div className="flex justify-between gap-3">
-              <dt className="text-ink-dim">status</dt>
-              <dd className="flex items-center gap-1.5 text-glow-b">
-                <span className="live-dot" aria-hidden /> active
-              </dd>
-            </div>
-            <div className="flex justify-between gap-3">
-              <dt className="text-ink-dim">coordinates</dt>
-              <dd>{profile.location}</dd>
-            </div>
-            <div className="flex justify-between gap-3">
-              <dt className="text-ink-dim">specialty</dt>
-              <dd className="text-right">CS · math · linguistics</dd>
-            </div>
-          </dl>
-          <p className="mt-5 border-t border-line pt-4 text-xs leading-relaxed text-ink-dim">
-            {profile.bio}
-          </p>
-          <div className="mt-5 flex flex-wrap gap-2">
-            <GlowButton href={profile.links.github} external variant="ghost" className="!px-3 !py-1 text-xs">
-              GitHub
-            </GlowButton>
-            <GlowButton href={profile.links.linkedin} external variant="ghost" className="!px-3 !py-1 text-xs">
-              LinkedIn
-            </GlowButton>
-            <GlowButton href={`mailto:${profile.links.email}`} variant="ghost" className="!px-3 !py-1 text-xs">
-              Email
-            </GlowButton>
-          </div>
-        </motion.div>
+      {/* The cargo hold: its own room, deliberately not open space */}
+      <div className="relative overflow-hidden border-y border-[#12262c] bg-[#060b0e] py-16">
+        {/* back-wall fog + overhead light shafts */}
+        <div
+          aria-hidden
+          className="absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(ellipse 70% 45% at 50% 0%, rgba(20,55,60,0.5), transparent 70%), radial-gradient(ellipse 90% 30% at 50% 100%, rgba(10,25,30,0.9), transparent 70%)",
+          }}
+        />
+        {[18, 50, 82].map((x) => (
+          <div
+            key={x}
+            aria-hidden
+            className="absolute top-0 h-3/4 w-24 opacity-[0.06]"
+            style={{
+              left: `${x}%`,
+              background: "linear-gradient(to bottom, #67e8f9, transparent)",
+              transform: "skewX(-6deg)",
+            }}
+          />
+        ))}
+        {/* floor grid, receding */}
+        <div
+          aria-hidden
+          className="absolute inset-x-0 bottom-0 h-48 opacity-25"
+          style={{
+            backgroundImage:
+              "linear-gradient(rgba(52,211,153,0.35) 1px, transparent 1px), linear-gradient(90deg, rgba(52,211,153,0.35) 1px, transparent 1px)",
+            backgroundSize: "56px 28px",
+            transform: "perspective(320px) rotateX(55deg)",
+            transformOrigin: "bottom",
+            maskImage: "linear-gradient(to top, black 20%, transparent)",
+            WebkitMaskImage: "linear-gradient(to top, black 20%, transparent)",
+          }}
+        />
+        <ContainerWall side="left" />
+        <ContainerWall side="right" />
 
-        {/* Tabbed console */}
-        <motion.div
-          initial={reduced ? false : { opacity: 0, x: 24 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true, margin: "-15%" }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          className="hud-panel min-h-[420px] rounded-sm p-6"
-        >
-          <div role="tablist" aria-label="Dossier sections" className="flex flex-wrap gap-1 border-b border-line pb-3">
-            {TABS.map((t) => (
-              <button
-                key={t}
-                role="tab"
-                aria-selected={tab === t}
-                onClick={() => setTab(t)}
-                className={`rounded-sm px-3 py-1.5 font-mono text-[11px] uppercase tracking-widest transition-colors ${
-                  tab === t
-                    ? "bg-glow-a/20 text-glow-b"
-                    : "text-ink-dim hover:bg-white/5 hover:text-ink"
-                }`}
-              >
-                {t}
-              </button>
-            ))}
-          </div>
-          <AnimatePresence mode="wait">
-            <motion.div
+        <div className="relative mx-auto grid max-w-5xl gap-10 px-6 md:grid-cols-[280px_1fr] md:px-16">
+          {/* ID card hologram on its emitter */}
+          <motion.div
+            initial={reduced ? false : { opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-15%" }}
+            transition={{ duration: 0.6 }}
+            className="self-end"
+          >
+            <div className={`holo-panel rounded-sm p-6 ${reduced ? "" : "holo-flicker"}`}>
+              <div className="hud-label !text-glow-b/70">personnel hologram · dz-01</div>
+              <div className="mt-5 flex h-24 w-24 items-center justify-center rounded-sm border border-glow-b/50 bg-glow-b/10">
+                <span className="font-mono text-3xl font-semibold text-glow-b">DZ</span>
+              </div>
+              <h3 className="mt-5 text-xl font-semibold text-[#e6fbff] glow-text">
+                <Decrypt text={profile.name} />
+              </h3>
+              <p className="mt-1 font-mono text-[11px] text-glow-b">
+                <Decrypt text={profile.title} charDelayMs={10} />
+              </p>
+              <dl className="mt-5 space-y-2 font-mono text-[11px]">
+                <div className="flex justify-between gap-3">
+                  <dt className="text-ink-dim">status</dt>
+                  <dd className="flex items-center gap-1.5 text-glow-b">
+                    <span className="live-dot" aria-hidden /> active
+                  </dd>
+                </div>
+                <div className="flex justify-between gap-3">
+                  <dt className="text-ink-dim">coordinates</dt>
+                  <dd className="text-[#e6fbff]">{profile.location}</dd>
+                </div>
+                <div className="flex justify-between gap-3">
+                  <dt className="text-ink-dim">specialty</dt>
+                  <dd className="text-right text-[#e6fbff]">CS · math · linguistics</dd>
+                </div>
+              </dl>
+              <p className="mt-5 border-t border-glow-b/20 pt-4 text-xs leading-relaxed text-ink-dim">
+                {profile.bio}
+              </p>
+              <div className="mt-5 flex flex-wrap gap-2">
+                <GlowButton href={profile.links.github} external variant="ghost" className="!border-glow-b/40 !px-3 !py-1 text-xs">
+                  GitHub
+                </GlowButton>
+                <GlowButton href={profile.links.linkedin} external variant="ghost" className="!border-glow-b/40 !px-3 !py-1 text-xs">
+                  LinkedIn
+                </GlowButton>
+                <GlowButton href={`mailto:${profile.links.email}`} variant="ghost" className="!border-glow-b/40 !px-3 !py-1 text-xs">
+                  Email
+                </GlowButton>
+              </div>
+            </div>
+            <HoloEmitter />
+          </motion.div>
+
+          {/* Records hologram: the tab console projected into the room */}
+          <motion.div
+            initial={reduced ? false : { opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-15%" }}
+            transition={{ duration: 0.6, delay: 0.12 }}
+            className="flex flex-col self-end"
+          >
+            <div role="tablist" aria-label="Dossier records" className="mb-3 flex flex-wrap gap-1">
+              {TABS.map((t) => (
+                <button
+                  key={t}
+                  role="tab"
+                  aria-selected={tab === t}
+                  onClick={() => setTab(t)}
+                  className={`rounded-sm border px-3 py-1.5 font-mono text-[11px] uppercase tracking-widest transition-all ${
+                    tab === t
+                      ? "border-glow-b/70 bg-glow-b/15 text-glow-b shadow-[0_0_16px_rgba(34,211,238,0.3)]"
+                      : "border-[#1b3a3f] text-ink-dim hover:border-glow-b/40 hover:text-ink"
+                  }`}
+                >
+                  {t}
+                </button>
+              ))}
+            </div>
+
+            <div
               key={tab}
               role="tabpanel"
-              initial={reduced ? false : { opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={reduced ? undefined : { opacity: 0, y: -8 }}
-              transition={{ duration: 0.2 }}
-              className="pt-5"
+              className={`holo-panel min-h-[380px] rounded-sm p-6 ${reduced ? "" : "holo-materialize holo-flicker"}`}
             >
+              <p className="hud-label mb-4 !text-glow-b/60">
+                hologram record · {tab.toLowerCase()}
+              </p>
               <Panel />
-            </motion.div>
-          </AnimatePresence>
-        </motion.div>
+            </div>
+            <HoloEmitter />
+          </motion.div>
+        </div>
       </div>
     </section>
   );

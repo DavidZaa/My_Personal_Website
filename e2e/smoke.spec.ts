@@ -24,11 +24,13 @@ test("home renders the full voyage: hero + all five waypoint sections", async ({
   }
 });
 
-test("crew dossier tabs switch content", async ({ page }) => {
+test("crew dossier hologram tabs switch content", async ({ page }) => {
   await page.goto("/");
   await page.locator("#dossier").scrollIntoViewIfNeeded();
-  await page.getByRole("tab", { name: "Research" }).click();
+  await page.getByRole("tab", { name: "Publications" }).click();
   await expect(page.getByText("us provisional patents")).toBeVisible();
+  await page.getByRole("tab", { name: "Awards" }).click();
+  await expect(page.getByText("VEX Robotics", { exact: false })).toBeVisible();
 });
 
 test("/about redirects into the dossier section", async ({ page }) => {

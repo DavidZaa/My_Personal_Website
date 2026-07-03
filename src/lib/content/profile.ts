@@ -63,6 +63,15 @@ export const profile = {
       ],
     },
     {
+      org: "International Centre for Engineering Education (ICEE) under UNESCO",
+      role: "Intern",
+      period: "Jun 2024 – Aug 2024",
+      location: "Beijing, China",
+      bullets: [
+        "Conducted market scans of AI ed-techs and prepared comprehensive reports on their potential applications in educational settings; drafted accounts on the relations between China and America, providing policy proposals for cross-border rollout.",
+      ],
+    },
+    {
       org: "SoftCom Lab, Cal Poly Pomona",
       role: "Project Lead & Research Intern",
       period: "Aug 2023 – Jun 2024",
@@ -95,8 +104,6 @@ export const profile = {
         "STEM-oriented opinion and analysis — AI ethics, data privacy, innovation policy — written to be readable by people who don't live in the terminal.",
     },
   ],
-  offDuty:
-    "Off duty: Level 9 Certificate of Merit pianist, linguistics nerd, and reliably the person who stays too long at the whiteboard.",
   publications: [
     {
       title: "Smart Collaborative Online Platform for Programming Education",
@@ -130,10 +137,15 @@ export const profile = {
   ],
   awards: [
     "USA Computing Olympiad — Platinum Division",
-    "AIME Qualifier",
     "VEX Robotics World Championship Finalist ×2",
-    "AI Challengers USA Regional Winner",
+    "AI Challengers — USA Regional Winner & Global Finalist (2023)",
     "OCSEF Raytheon Science & Engineering Special Award",
+    "President's Volunteer Service Award — Gold (2022/23) & Silver (2021/22)",
+    "Ignite CS Contest — 2nd Place, Web & App (2023)",
+    "GameGala Game Design — 2nd Place (2023)",
+    "Piano Certificate of Merit — Level 9",
+    "National Economic Challenge & National Personal Finance Challenge — State Qualifier (2023)",
+    "Multiple Model UN Awards — University High School",
   ],
   skills: [
     "Python",
