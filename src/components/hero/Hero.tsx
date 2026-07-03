@@ -76,8 +76,8 @@ export function Hero() {
             transition={{ delay: 0.36, duration: 0.6 }}
             className="pointer-events-auto mt-7 flex flex-wrap gap-3"
           >
-            <GlowButton href="/projects">View projects</GlowButton>
-            <GlowButton href="/about" variant="ghost">
+            <GlowButton href="/#payload">View projects</GlowButton>
+            <GlowButton href="/#dossier" variant="ghost">
               About me
             </GlowButton>
           </motion.div>

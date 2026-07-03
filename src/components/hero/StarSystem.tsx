@@ -1,20 +1,66 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Html, Stars } from "@react-three/drei";
 import * as THREE from "three";
 import { PLANETS, type PlanetSpec } from "./planets";
 
+// Shared radial-gradient texture for every glow: soft white falloff that
+// sprites tint per-body. A uniform-opacity sphere reads as a hard-edged
+// disk; a gradient sprite reads as light.
+let glowTexture: THREE.CanvasTexture | null = null;
+function getGlowTexture(): THREE.CanvasTexture {
+  if (glowTexture) return glowTexture;
+  const size = 128;
+  const canvas = document.createElement("canvas");
+  canvas.width = size;
+  canvas.height = size;
+  const ctx = canvas.getContext("2d")!;
+  const g = ctx.createRadialGradient(size / 2, size / 2, 0, size / 2, size / 2, size / 2);
+  g.addColorStop(0, "rgba(255,255,255,1)");
+  g.addColorStop(0.35, "rgba(255,255,255,0.5)");
+  g.addColorStop(0.7, "rgba(255,255,255,0.12)");
+  g.addColorStop(1, "rgba(255,255,255,0)");
+  ctx.fillStyle = g;
+  ctx.fillRect(0, 0, size, size);
+  glowTexture = new THREE.CanvasTexture(canvas);
+  return glowTexture;
+}
+
+function Glow({
+  size,
+  color,
+  opacity = 1,
+}: {
+  size: number;
+  color: string;
+  opacity?: number;
+}) {
+  const map = useMemo(getGlowTexture, []);
+  return (
+    <sprite scale={[size, size, 1]}>
+      <spriteMaterial
+        map={map}
+        color={color}
+        transparent
+        opacity={opacity}
+        depthWrite={false}
+        blending={THREE.AdditiveBlending}
+      />
+    </sprite>
+  );
+}
+
 function Sun() {
   const core = useRef<THREE.Mesh>(null);
-  const halo = useRef<THREE.Mesh>(null);
+  const halo = useRef<THREE.Group>(null);
 
   useFrame(({ clock }) => {
     const t = clock.elapsedTime;
     const pulse = 1 + Math.sin(t * 1.2) * 0.04;
     core.current?.scale.setScalar(pulse);
-    halo.current?.scale.setScalar(1.35 + Math.sin(t * 0.8) * 0.08);
+    halo.current?.scale.setScalar(1 + Math.sin(t * 0.8) * 0.07);
   });
 
   return (
@@ -28,16 +74,10 @@ function Sun() {
           toneMapped={false}
         />
       </mesh>
-      <mesh ref={halo}>
-        <sphereGeometry args={[0.85, 32, 32]} />
-        <meshBasicMaterial
-          color="#f59e0b"
-          transparent
-          opacity={0.14}
-          depthWrite={false}
-          blending={THREE.AdditiveBlending}
-        />
-      </mesh>
+      <group ref={halo}>
+        <Glow size={5.5} color="#f59e0b" opacity={0.55} />
+        <Glow size={2.6} color="#ffd9a0" opacity={0.8} />
+      </group>
       <pointLight intensity={60} distance={30} color="#ffd9a0" />
     </group>
   );
@@ -107,17 +147,8 @@ function Planet({
           roughness={0.35}
         />
       </mesh>
-      {/* soft glow shell */}
-      <mesh scale={1.6}>
-        <sphereGeometry args={[spec.size, 16, 16]} />
-        <meshBasicMaterial
-          color={spec.color}
-          transparent
-          opacity={hovered ? 0.28 : 0.1}
-          depthWrite={false}
-          blending={THREE.AdditiveBlending}
-        />
-      </mesh>
+      {/* soft glow */}
+      <Glow size={spec.size * 7} color={spec.color} opacity={hovered ? 0.9 : 0.4} />
       <Html center distanceFactor={9} style={{ pointerEvents: "none" }}>
         <span
           style={{
@@ -177,7 +208,11 @@ export default function StarSystem() {
   return (
     <Canvas
       camera={{ position: [0, 3.4, 8.5], fov: 50 }}
-      gl={{ antialias: true, alpha: true }}
+      // Opaque canvas: transparent WebGL + additive glows corrupt the
+      // alpha channel and dim the page behind them (dark halos). The
+      // scene paints its own void instead.
+      gl={{ antialias: true, alpha: false }}
+      onCreated={({ gl }) => gl.setClearColor("#050510")}
       dpr={[1, 2]}
       aria-hidden
       style={{

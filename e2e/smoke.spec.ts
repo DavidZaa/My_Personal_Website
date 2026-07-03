@@ -39,9 +39,9 @@ test("/about redirects into the dossier section", async ({ page }) => {
   await expect(page.locator("#dossier")).toBeAttached();
 });
 
-test("projects hangar cycles payloads through the bay doors", async ({ page }) => {
-  await page.goto("/projects");
-  await expect(page.getByRole("heading", { level: 1, name: "Projects" })).toBeVisible();
+test("landing hangar cycles payloads through the bay doors", async ({ page }) => {
+  await page.goto("/");
+  await page.locator("#payload").scrollIntoViewIfNeeded();
   await expect(page.getByRole("heading", { name: "sparseeval" })).toBeVisible();
   await expect(page.getByText("payload 01", { exact: false })).toBeVisible();
   await page.getByRole("button", { name: "Next project" }).click();
@@ -54,6 +54,12 @@ test("projects hangar cycles payloads through the bay doors", async ({ page }) =
   await expect(page.getByRole("heading", { name: "DigiPrescription" })).toBeVisible({
     timeout: 5000,
   });
+});
+
+test("/projects redirects into the hangar section", async ({ page }) => {
+  await page.goto("/projects");
+  await expect(page).toHaveURL(/\/#payload$/);
+  await expect(page.locator("#payload")).toBeAttached();
 });
 
 for (const [path, heading] of [
@@ -97,7 +103,7 @@ test("command palette opens with ctrl/cmd+k and navigates", async ({ page }) => 
   }).toPass({ timeout: 10_000 });
   await input.fill("projects");
   await page.keyboard.press("Enter");
-  await expect(page).toHaveURL(/\/projects/);
+  await expect(page).toHaveURL(/#payload/);
 });
 
 test("guestbook form reports demo mode instead of a broken sign-in", async ({ page }) => {

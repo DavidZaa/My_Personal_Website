@@ -2,7 +2,7 @@ import { BootSequence } from "@/components/boot/BootSequence";
 import { Hero } from "@/components/hero/Hero";
 import { Starfield } from "@/components/voyage/Starfield";
 import { DossierSection } from "@/components/voyage/DossierSection";
-import { PayloadBay } from "@/components/voyage/PayloadBay";
+import { HangarBay } from "@/components/voyage/HangarBay";
 import { TransmissionSection } from "@/components/voyage/TransmissionSection";
 import { TelemetryDeck } from "@/components/voyage/TelemetryDeck";
 import { SignalStream } from "@/components/voyage/SignalStream";
@@ -41,7 +41,7 @@ export default async function Home() {
 
       <div className="space-y-28 pb-16">
         <DossierSection />
-        <PayloadBay />
+        <HangarBay />
         <TransmissionSection post={posts[0] ?? null} />
         <TelemetryDeck
           github={github}

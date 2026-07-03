@@ -71,8 +71,8 @@ export function CommandPalette() {
         <Command.Group heading="Navigate">
           {[
             ["Home — the star system", "/"],
-            ["About — crew file", "/about"],
-            ["Projects — payload bay", "/projects"],
+            ["About — crew dossier", "/#dossier"],
+            ["Projects — hangar bay", "/#payload"],
             ["Blog — transmission log", "/blog"],
             ["Now — live feed", "/now"],
             ["Guestbook — open channel", "/guestbook"],
