@@ -5,10 +5,16 @@ import { saveStatCache } from "@/lib/data";
 import { hasServiceRole } from "@/lib/data/config";
 
 /**
- * Refreshes the external-stats cache. Wire this to a Vercel cron
- * (e.g. every 6 hours) or hit it manually after pushing code.
+ * Refreshes the external-stats cache. Invoked by the daily Vercel cron
+ * (see vercel.json) or manually after pushing code. When CRON_SECRET is
+ * set, callers must present it — Vercel's cron does so automatically.
  */
-export async function GET() {
+export async function GET(request: Request) {
+  const secret = process.env.CRON_SECRET;
+  if (secret && request.headers.get("authorization") !== `Bearer ${secret}`) {
+    return NextResponse.json({ ok: false, error: "unauthorized" }, { status: 401 });
+  }
+
   if (!hasServiceRole()) {
     return NextResponse.json({
       ok: false,
