@@ -66,7 +66,7 @@ export function DescentTransition() {
         transition={{ duration: 0.7 }}
         className="absolute bottom-[18%] left-1/2 w-full -translate-x-1/2 text-center font-mono text-[11px] uppercase text-ink-dim"
       >
-        waypoint 02 · docking — crew deck
+        docking — crew deck
       </motion.p>
 
       {/* hangar aperture glow where the hold begins */}

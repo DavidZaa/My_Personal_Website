@@ -1,7 +1,6 @@
 import { BootSequence } from "@/components/boot/BootSequence";
 import { Hero } from "@/components/hero/Hero";
 import { Starfield } from "@/components/voyage/Starfield";
-import { Waypoint } from "@/components/voyage/Waypoint";
 import { DescentTransition } from "@/components/voyage/DescentTransition";
 import { DossierSection } from "@/components/voyage/DossierSection";
 import { PayloadBay } from "@/components/voyage/PayloadBay";
@@ -41,25 +40,19 @@ export default async function Home() {
       {/* Waypoint 01 — the map itself */}
       <Hero />
 
-      <div className="space-y-10 pb-10">
-        <DescentTransition />
-        <DossierSection />
-
-        <Waypoint index={3} label="payload bay" />
+      <div className="space-y-28 pb-16">
+        <div>
+          <DescentTransition />
+          <DossierSection />
+        </div>
         <PayloadBay />
-
-        <Waypoint index={4} label="incoming transmission" />
         <TransmissionSection post={posts[0] ?? null} />
-
-        <Waypoint index={5} label="telemetry deck" />
         <TelemetryDeck
           github={github}
           leetcode={leetcode}
           counters={counters}
           visitors={visitors}
         />
-
-        <Waypoint index={6} label="signal stream" />
         <SignalStream entries={guestbook} configured={isSupabaseConfigured()} />
       </div>
     </>
