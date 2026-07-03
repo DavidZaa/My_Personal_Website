@@ -31,6 +31,9 @@ export const metadata: Metadata = {
     siteName: "David Zhang",
     type: "website",
   },
+  twitter: {
+    card: "summary_large_image",
+  },
 };
 
 export default function RootLayout({
