@@ -14,16 +14,40 @@ test("boot sequence plays on a fresh session and can be skipped", async ({ page 
   await expect(boot).toBeHidden();
 });
 
-test("home renders hero, telemetry, and featured projects", async ({ page }) => {
+test("home renders the full voyage: hero + all five waypoint sections", async ({ page }) => {
   await page.goto("/");
-  await expect(page.getByRole("heading", { name: /David Zhang/ })).toBeVisible();
-  await expect(page.getByText("telemetry", { exact: false }).first()).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Featured projects" })).toBeVisible();
+  await expect(
+    page.getByRole("heading", { level: 1, name: /David Zhang/ }),
+  ).toBeVisible();
+  for (const id of ["dossier", "payload", "transmission", "telemetry", "signals"]) {
+    await expect(page.locator(`#${id}`)).toBeAttached();
+  }
+});
+
+test("crew dossier tabs switch content", async ({ page }) => {
+  await page.goto("/");
+  await page.locator("#dossier").scrollIntoViewIfNeeded();
+  await page.getByRole("tab", { name: "Research" }).click();
+  await expect(page.getByText("us provisional patents")).toBeVisible();
+});
+
+test("/about redirects into the dossier section", async ({ page }) => {
+  await page.goto("/about");
+  await expect(page).toHaveURL(/\/#dossier$/);
+  await expect(page.locator("#dossier")).toBeAttached();
+});
+
+test("projects page lists the full manifest with working filters", async ({ page }) => {
+  await page.goto("/projects");
+  await expect(page.getByRole("heading", { level: 1, name: "Projects" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "sparseeval" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "DigiPrescription" })).toBeVisible();
+  await page.getByRole("button", { name: /^research/ }).click();
+  await expect(page.getByRole("heading", { name: "DigiPrescription" })).toBeHidden();
+  await expect(page.getByRole("heading", { name: "LatentMode GEPA" })).toBeVisible();
 });
 
 for (const [path, heading] of [
-  ["/about", "David Zhang"],
-  ["/projects", "Projects"],
   ["/blog", "Blog"],
   ["/now", "Now"],
   ["/guestbook", "Guestbook"],

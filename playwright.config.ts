@@ -5,14 +5,14 @@ export default defineConfig({
   timeout: 30_000,
   retries: 1,
   use: {
-    baseURL: "http://localhost:3001",
+    baseURL: "http://localhost:3000",
   },
   projects: [{ name: "chromium", use: { ...devices["Desktop Chrome"] } }],
   // Reuses a running `npm run dev` (Next refuses duplicate dev servers
   // for the same dir); starts one itself when none exists.
   webServer: {
-    command: "npm run dev -- --port 3001",
-    url: "http://localhost:3001",
+    command: "npm run dev",
+    url: "http://localhost:3000",
     reuseExistingServer: !process.env.CI,
     timeout: 120_000,
   },
