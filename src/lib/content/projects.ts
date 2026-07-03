@@ -31,7 +31,7 @@ export const projects: Project[] = [
     description:
       "A React/Node app that ingests RSS feeds, generates web-grounded article briefs, and scores each piece with an independent credibility report — a newspaper that shows its work.",
     tech: ["React", "Node", "SQLite", "LLM APIs"],
-    github: "https://github.com/DavidZaa/ai-education-newspaper",
+    github: "https://github.com/DavidZaa/AI-Newspaper-Reviewer",
     featured: true,
     status: "shipped",
   },
