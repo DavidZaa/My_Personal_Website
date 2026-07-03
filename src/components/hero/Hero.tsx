@@ -27,10 +27,13 @@ export function Hero() {
   const [reduced, setReduced] = useState(false);
 
   useEffect(() => {
-    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const small = window.matchMedia("(max-width: 768px)").matches;
-    setReduced(reducedMotion);
-    setMode(!reducedMotion && !small && supportsWebgl() ? "3d" : "fallback");
+    const raf = requestAnimationFrame(() => {
+      const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const small = window.matchMedia("(max-width: 768px)").matches;
+      setReduced(reducedMotion);
+      setMode(!reducedMotion && !small && supportsWebgl() ? "3d" : "fallback");
+    });
+    return () => cancelAnimationFrame(raf);
   }, []);
 
   return (

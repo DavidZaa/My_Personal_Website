@@ -13,8 +13,8 @@ function useCountUp(target: number, durationMs = 1200) {
 
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduced) {
-      setValue(target);
-      return;
+      const raf = requestAnimationFrame(() => setValue(target));
+      return () => cancelAnimationFrame(raf);
     }
 
     const observer = new IntersectionObserver(

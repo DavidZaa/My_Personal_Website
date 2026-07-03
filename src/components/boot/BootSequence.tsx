@@ -40,7 +40,7 @@ export function BootSequence() {
       sessionStorage.setItem(BOOT_KEY, "1");
       return;
     }
-    setVisible(true);
+    const raf = requestAnimationFrame(() => setVisible(true));
 
     const timers: ReturnType<typeof setTimeout>[] = [];
     LINES.forEach((_, i) => {
@@ -49,7 +49,10 @@ export function BootSequence() {
     timers.push(
       setTimeout(finish, LINES.length * LINE_DELAY_MS + EXIT_DELAY_MS),
     );
-    return () => timers.forEach(clearTimeout);
+    return () => {
+      cancelAnimationFrame(raf);
+      timers.forEach(clearTimeout);
+    };
   }, [finish]);
 
   useEffect(() => {
