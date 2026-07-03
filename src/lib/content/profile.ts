@@ -178,10 +178,14 @@ export const profile = {
     {
       title: "OCSEF Raytheon Science & Engineering Special Award",
       meta: "Orange County Science & Engineering Fair · Jan 2024",
+      detail:
+        "Raytheon-sponsored special award at the Orange County Science & Engineering Fair, recognizing an outstanding science and engineering research project.",
     },
     {
       title: "National Merit Scholarship Finalist",
       meta: "99th percentile PSAT",
+      detail:
+        "Named a National Merit Finalist on the strength of a 99th-percentile PSAT/NMSQT score and sustained academic record.",
     },
     {
       title: "NSLI-Y Scholarship",
@@ -202,23 +206,70 @@ export const profile = {
     },
     {
       title: "National Economics Challenge — State Finalist",
+      meta: "2023",
+      detail:
+        "State finalist in the National Economics Challenge, the country's premier high-school economics competition, covering micro, macro, and the world economy.",
     },
     {
       title: "National Personal Finance Challenge — State Finalist",
+      meta: "2023",
+      detail:
+        "State finalist in the National Personal Finance Challenge, competing in applied budgeting, saving, investing, and risk management.",
     },
     {
       title: "Burger King Scholarship",
+      meta: "Burger King Foundation",
+      detail:
+        "Burger King Scholars award recognizing academic achievement, work experience, and community involvement.",
     },
     {
       title: "GameGala Game Design Competition — 2nd Place",
+      meta: "2023",
+      detail:
+        "Placed 2nd overall for original game design and implementation.",
     },
     {
       title: "IgniteCS Programming Expo — 2nd Place",
+      meta: "2023 · Web & App division",
+      detail:
+        "Placed 2nd in the Web & App division of the IgniteCS Programming Expo.",
     },
     {
       title: "Piano Certificate of Merit — Level 9",
+      meta: "Certificate of Merit program",
+      detail:
+        "Completed Level 9 — nine years of examined study across performance, technique, sight-reading, and music theory.",
     },
   ] as readonly AwardEntry[],
+  /** Completed coursework, by subject name (course codes stay off the site). */
+  coursework: {
+    "computer science": [
+      "Intro Programming",
+      "Data Structures",
+      "Computer Organization",
+      "Software Construction",
+      "Algorithms",
+      "Formal Languages & Automata",
+      "Digital Logic Design",
+    ],
+    "math & statistics": [
+      "Single-Variable Calculus",
+      "Multivariable Calculus",
+      "Vector Calculus",
+      "Linear Algebra & Applications",
+      "Differential Equations",
+      "Discrete Structures",
+      "Linear Algebra (Theory)",
+      "Probability",
+    ],
+    physics: ["Mechanics", "Waves & Electromagnetism", "Electrodynamics & Optics"],
+    linguistics: [
+      "Intro Linguistic Analysis",
+      "Phonetics",
+      "Applied Phonology",
+      "Syntax",
+    ],
+  },
   skills: [
     "Python",
     "C++",

@@ -58,46 +58,31 @@ function Experiences({ onOpen }: { onOpen: (r: ModalRecord) => void }) {
 function Awards({ onOpen }: { onOpen: (r: ModalRecord) => void }) {
   return (
     <ul className="grid gap-2 sm:grid-cols-2">
-      {profile.awards.map((a) => {
-        const expandable = Boolean(a.detail || ("highlights" in a && a.highlights));
-        const body = (
-          <>
+      {profile.awards.map((a) => (
+        <li key={a.title} className="min-w-0">
+          <button
+            type="button"
+            onClick={() => onOpen({ kind: "award", data: a })}
+            className="flex h-full w-full flex-col rounded-sm border border-glow-b/20 p-3 text-left transition-colors hover:border-glow-b/60 hover:bg-glow-b/5"
+          >
             <div className="flex items-start gap-2">
-              <span aria-hidden className="mt-px text-glow-warm">✦</span>
-              <div className="min-w-0">
-                <p className="text-xs font-semibold leading-snug text-[#e6fbff]">
-                  {a.title}
-                </p>
-                {a.meta && (
-                  <p className="mt-0.5 truncate font-mono text-[10px] text-glow-b/70">
-                    {a.meta}
-                  </p>
-                )}
-                {a.detail && (
-                  <p className="mt-1 text-[11px] leading-snug text-ink-dim">
-                    {teaser(a.detail, 56)}
-                  </p>
-                )}
-              </div>
+              <span aria-hidden className="mt-px shrink-0 text-glow-warm">✦</span>
+              <p className="line-clamp-2 min-h-[2em] text-xs font-semibold leading-snug text-[#e6fbff]">
+                {a.title}
+              </p>
             </div>
-          </>
-        );
-        return (
-          <li key={a.title}>
-            {expandable ? (
-              <button
-                type="button"
-                onClick={() => onOpen({ kind: "award", data: a })}
-                className="h-full w-full rounded-sm border border-glow-b/20 p-3 text-left transition-colors hover:border-glow-b/60 hover:bg-glow-b/5"
-              >
-                {body}
-              </button>
-            ) : (
-              <div className="h-full rounded-sm border border-glow-b/10 p-3">{body}</div>
-            )}
-          </li>
-        );
-      })}
+            <p className="mt-1 truncate pl-5 font-mono text-[10px] text-glow-b/70">
+              {a.meta ?? "—"}
+            </p>
+            <p className="mt-1 line-clamp-2 flex-1 pl-5 text-[11px] leading-snug text-ink-dim">
+              {a.detail ? teaser(a.detail, 72) : ""}
+            </p>
+            <span className="mt-2 pl-5 font-mono text-[9px] uppercase tracking-widest text-glow-b/60">
+              tap to expand record
+            </span>
+          </button>
+        </li>
+      ))}
     </ul>
   );
 }
@@ -133,15 +118,42 @@ function Publications() {
 
 function Systems() {
   return (
-    <div className="flex flex-wrap gap-1.5">
-      {profile.skills.map((s) => (
-        <span
-          key={s}
-          className="rounded-sm border border-glow-b/30 px-2 py-1 font-mono text-[11px] text-ink-dim transition-colors hover:border-glow-b hover:text-[#e6fbff]"
-        >
-          {s}
-        </span>
-      ))}
+    <div className="space-y-6">
+      <div>
+        <p className="hud-label mb-2.5 !text-glow-b/70">completed coursework</p>
+        <div className="space-y-3.5">
+          {Object.entries(profile.coursework).map(([subject, classes]) => (
+            <div key={subject}>
+              <p className="mb-1.5 font-mono text-[10px] uppercase tracking-widest text-ink-dim">
+                {subject}
+              </p>
+              <div className="flex flex-wrap gap-1.5">
+                {classes.map((c) => (
+                  <span
+                    key={c}
+                    className="rounded-sm border border-glow-b/30 px-2 py-1 font-mono text-[11px] text-[#c6eef7] transition-colors hover:border-glow-b"
+                  >
+                    {c}
+                  </span>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div>
+        <p className="hud-label mb-2.5 !text-glow-b/70">tooling & skills</p>
+        <div className="flex flex-wrap gap-1.5">
+          {profile.skills.map((s) => (
+            <span
+              key={s}
+              className="rounded-sm border border-glow-b/20 px-2 py-1 font-mono text-[11px] text-ink-dim transition-colors hover:border-glow-b hover:text-[#e6fbff]"
+            >
+              {s}
+            </span>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }
