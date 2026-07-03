@@ -228,15 +228,16 @@ export function DossierSection() {
 
   return (
     <section id="dossier" className="scroll-mt-16">
-      {/* The cargo hold: its own room, deliberately not open space */}
-      <div className="relative overflow-hidden border-b border-[#12262c] bg-[#060b0e] py-16">
+      {/* The cargo hold: its own room, deliberately not open space.
+          Top edge fades in from open space so there's no hard seam. */}
+      <div className="relative overflow-hidden border-b border-[#12262c] bg-[#060b0e] pb-16 pt-36 [mask-image:linear-gradient(to_bottom,transparent,black_22rem)]">
         {/* back-wall fog + overhead light shafts */}
         <div
           aria-hidden
           className="absolute inset-0"
           style={{
             background:
-              "radial-gradient(ellipse 70% 45% at 50% 0%, rgba(20,55,60,0.5), transparent 70%), radial-gradient(ellipse 90% 30% at 50% 100%, rgba(10,25,30,0.9), transparent 70%)",
+              "radial-gradient(ellipse 70% 45% at 50% 28%, rgba(20,55,60,0.4), transparent 70%), radial-gradient(ellipse 90% 30% at 50% 100%, rgba(10,25,30,0.9), transparent 70%)",
           }}
         />
         {[18, 50, 82].map((x) => (

@@ -43,7 +43,13 @@ export default function RootLayout({
       lang="en"
       className={`${display.variable} ${telemetry.variable} h-full antialiased`}
     >
-      <body className="nebula-bg min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        {/* Viewport-fixed nebula wash — body-level backgrounds size to the
+            body box (one viewport tall here), which printed a visible seam
+            mid-page. A fixed layer stays put behind everything instead. */}
+        <div aria-hidden className="nebula-bg fixed inset-0 -z-20" />
+        {children}
+      </body>
     </html>
   );
 }

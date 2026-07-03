@@ -38,8 +38,8 @@ export function Hero() {
 
   return (
     <section className="relative h-[calc(100svh-3.5rem)] min-h-[540px] w-full overflow-hidden">
-      {/* scene */}
-      <div className="absolute inset-0">
+      {/* scene — bottom edge fades out so the section blends into the page */}
+      <div className="absolute inset-0 [mask-image:linear-gradient(to_bottom,black_78%,transparent)]">
         {mode === "3d" && <StarSystem />}
         {mode === "fallback" && (
           <div className="flex h-full items-center justify-center pt-10">
