@@ -4,20 +4,22 @@ import { Hero } from "@/components/hero/Hero";
 import { HudPanel } from "@/components/ui/HudPanel";
 import { GlowButton } from "@/components/ui/GlowButton";
 import { Reveal } from "@/components/ui/Reveal";
-import { TelemetryNumber } from "@/components/ui/Telemetry";
+import { TelemetryStrip } from "@/components/stats/TelemetryStrip";
 import { featuredProjects } from "@/lib/content/projects";
 import { profile } from "@/lib/content/profile";
 import {
   getCounters,
   getGithubStats,
+  getLeetcodeStats,
   getNowStatus,
   getVisitorCount,
   recordPageView,
 } from "@/lib/data";
 
 export default async function Home() {
-  const [github, counters, visitors, now] = await Promise.all([
+  const [github, leetcode, counters, visitors, now] = await Promise.all([
     getGithubStats(),
+    getLeetcodeStats(),
     getCounters(),
     getVisitorCount(),
     getNowStatus(),
@@ -112,29 +114,12 @@ export default async function Home() {
         <Reveal>
           <section>
             <p className="hud-label mb-3">telemetry</p>
-            <HudPanel>
-              <div className="grid grid-cols-2 gap-6 sm:grid-cols-4">
-                <TelemetryNumber
-                  value={github?.totalContributions ?? 0}
-                  label="GitHub contributions · yr"
-                  signalLost={!github}
-                />
-                <TelemetryNumber
-                  value={github?.publicRepos ?? 0}
-                  label="public repos"
-                  signalLost={!github}
-                />
-                {counters.slice(0, 1).map((c) => (
-                  <TelemetryNumber
-                    key={c.id}
-                    value={c.value}
-                    label={c.label.toLowerCase()}
-                    unit={c.unit ?? undefined}
-                  />
-                ))}
-                <TelemetryNumber value={visitors} label="visitors logged" />
-              </div>
-            </HudPanel>
+            <TelemetryStrip
+              github={github}
+              leetcode={leetcode}
+              counters={counters}
+              visitors={visitors}
+            />
           </section>
         </Reveal>
 
