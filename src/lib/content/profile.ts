@@ -134,6 +134,7 @@ export const profile = {
       org: "UCLA DataRes · DataBlog",
       role: "Project Lead",
       period: "Oct 2025 – Present",
+      group: "ucla",
       detail:
         "Leading a 5–6 member team analyzing MyLA311 open data — where and why LA residents wait longer for city services across request types, ZIP codes, and channels. Python/Colab pipeline + Plotly dashboard, findings written up for city operations.",
     },
@@ -141,6 +142,7 @@ export const profile = {
       org: "Alumni Scholars Club",
       role: "Financial Coordinator",
       period: "Sep 2025 – Present",
+      group: "ucla",
       detail:
         "One of three coordinators securing program funding with campus sources and the UCLA Alumni Association; planning alumni workshops, seminars, tutoring, and mentorship events.",
     },
@@ -148,8 +150,67 @@ export const profile = {
       org: "Bruin Review",
       role: "Editorial Writer",
       period: "Oct 2025 – Present",
+      group: "ucla",
       detail:
         "STEM-oriented opinion and analysis — AI ethics, data privacy, innovation policy — written to be readable by people who don't live in the terminal.",
+    },
+    {
+      org: "Association for Computing Machinery (ACM) @ UCLA",
+      role: "Member",
+      group: "ucla",
+    },
+    {
+      org: "UCLA Honors Program",
+      role: "Member",
+      group: "ucla",
+    },
+    {
+      org: "Gold Shield Alumnae of UCLA",
+      role: "Member",
+      group: "ucla",
+    },
+    {
+      org: "Junamici Foundation",
+      role: "Member",
+      group: "ucla",
+    },
+    {
+      org: "We-Together Educational Foundation",
+      role: "Founder · Student Board President",
+      group: "high school & community",
+      detail:
+        "Founded and led the student board — free coding education in shelters via a self-developed online platform, essay contests, and a community research survey on electronics and academic performance.",
+    },
+    {
+      org: "Protecting Oceans by Young Activists",
+      role: "Founder",
+      group: "high school & community",
+    },
+    {
+      org: "IUSD Advocacy Program",
+      role: "Student Advocate (grades 11–12)",
+      group: "high school & community",
+    },
+    {
+      org: "Irvine Coding Club",
+      role: "Board Member",
+      group: "high school & community",
+      detail:
+        "Taught and organized free summer and after-school coding classes for students across the Irvine School District.",
+    },
+    {
+      org: "VEX Robotics — Team 80920A Arctic Penguins",
+      role: "Team Leader",
+      group: "high school & community",
+      detail:
+        "Led the team through two World Championship qualifications and a shelf of tournament and skills titles.",
+    },
+    {
+      org: "Purple Cross Portola",
+      role: "Leadership",
+      group: "high school & community",
+      detail:
+        "Organized volunteer services at local food banks, coordinating students across multiple schools.",
     },
   ],
   publications: [

@@ -190,16 +190,34 @@ function Systems() {
 }
 
 function Clubs() {
+  const groups = ["ucla", "high school & community"] as const;
   return (
-    <div className="space-y-4">
-      {profile.clubs.map((c) => (
-        <div key={c.org}>
-          <div className="flex flex-wrap items-baseline justify-between gap-x-4">
-            <h4 className="text-sm font-semibold text-[#e6fbff]">{c.org}</h4>
-            <span className="font-mono text-[10px] text-glow-b/70">{c.period}</span>
+    <div className="space-y-6">
+      {groups.map((g) => (
+        <div key={g}>
+          <p className="hud-label mb-2.5 !text-glow-b/70">{g}</p>
+          <div className="space-y-3.5">
+            {profile.clubs
+              .filter((c) => c.group === g)
+              .map((c) => (
+                <div key={c.org}>
+                  <div className="flex flex-wrap items-baseline justify-between gap-x-4">
+                    <h4 className="text-sm font-semibold text-[#e6fbff]">{c.org}</h4>
+                    {"period" in c && c.period && (
+                      <span className="font-mono text-[10px] text-glow-b/70">
+                        {c.period}
+                      </span>
+                    )}
+                  </div>
+                  <p className="mt-0.5 text-xs text-glow-b">{c.role}</p>
+                  {"detail" in c && c.detail && (
+                    <p className="mt-1 text-xs leading-relaxed text-ink-dim">
+                      {c.detail}
+                    </p>
+                  )}
+                </div>
+              ))}
           </div>
-          <p className="mt-0.5 text-xs text-glow-b">{c.role}</p>
-          <p className="mt-1 text-xs leading-relaxed text-ink-dim">{c.detail}</p>
         </div>
       ))}
     </div>
