@@ -39,14 +39,21 @@ test("/about redirects into the dossier section", async ({ page }) => {
   await expect(page.locator("#dossier")).toBeAttached();
 });
 
-test("projects page lists the full manifest with working filters", async ({ page }) => {
+test("projects hangar cycles payloads through the bay doors", async ({ page }) => {
   await page.goto("/projects");
   await expect(page.getByRole("heading", { level: 1, name: "Projects" })).toBeVisible();
   await expect(page.getByRole("heading", { name: "sparseeval" })).toBeVisible();
-  await expect(page.getByRole("heading", { name: "DigiPrescription" })).toBeVisible();
-  await page.getByRole("button", { name: /^research/ }).click();
-  await expect(page.getByRole("heading", { name: "DigiPrescription" })).toBeHidden();
-  await expect(page.getByRole("heading", { name: "LatentMode GEPA" })).toBeVisible();
+  await expect(page.getByText("payload 01", { exact: false })).toBeVisible();
+  await page.getByRole("button", { name: "Next project" }).click();
+  await expect(page.getByRole("heading", { name: "LatentMode GEPA" })).toBeVisible({
+    timeout: 5000,
+  });
+  await expect(page.getByText("payload 02", { exact: false })).toBeVisible();
+  // dot pager jumps straight to a payload
+  await page.getByRole("button", { name: "Show DigiPrescription" }).click();
+  await expect(page.getByRole("heading", { name: "DigiPrescription" })).toBeVisible({
+    timeout: 5000,
+  });
 });
 
 for (const [path, heading] of [
