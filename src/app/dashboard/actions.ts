@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { requireOwner } from "@/lib/auth";
 import * as data from "@/lib/data";
-import type { WriteResult } from "@/lib/types";
+import type { LeetcodeStats, WriteResult } from "@/lib/types";
 
 /**
  * Every mutation from the dashboard funnels through here: re-check the
@@ -104,6 +104,24 @@ export async function upsertCounter(counter: {
 export async function removeCounter(id: string): Promise<WriteResult> {
   await requireOwner();
   const result = await data.deleteCounter(id);
+  revalidatePath("/");
+  return result;
+}
+
+// ---------- leetcode telemetry ----------
+
+// Manual override for the LeetCode gauge. It writes the same cache row
+// the auto-fetcher would, and survives the daily cron as long as
+// LEETCODE_USERNAME stays unset.
+export async function updateLeetcodeStats(stats: LeetcodeStats): Promise<WriteResult> {
+  await requireOwner();
+  const clean = (n: number) => Math.max(0, Math.round(Number(n) || 0));
+  const result = await data.saveStatCache("leetcode", {
+    totalSolved: clean(stats.totalSolved),
+    easy: clean(stats.easy),
+    medium: clean(stats.medium),
+    hard: clean(stats.hard),
+  });
   revalidatePath("/");
   return result;
 }
