@@ -48,7 +48,7 @@ export default async function Home() {
           <Bulkhead label="deck 02 · payload bay" />
           <HangarBay />
         </div>
-        <TransmissionSection post={posts[0] ?? null} />
+        <TransmissionSection posts={posts} />
         <TelemetryDeck
           github={github}
           leetcode={leetcode}

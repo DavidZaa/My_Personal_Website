@@ -30,6 +30,45 @@ export const profile = {
       degree:
         "B.S. Computer Science & Mathematics of Computation, Minor in Linguistics",
       location: "Los Angeles, CA",
+      activities: [
+        "UCLA DataRes",
+        "DataBlog",
+        "Alumni Scholars Club",
+        "Gold Shield Alumnae",
+        "Junamici Foundation",
+        "Bruin Review",
+        "Association for Computing Machinery",
+        "UCLA Honors Program",
+      ],
+      apCourses: [] as readonly string[],
+    },
+    {
+      school: "University High School, Irvine",
+      degree: "Diploma",
+      location: "Irvine, CA",
+      activities: [
+        "We-Together Educational Foundation (Founder)",
+        "Protecting Oceans by Young Activists (Founder)",
+        "IUSD Advocacy Program",
+        "Irvine Coding Club (Board)",
+        "VEX Robotics (Team Leader)",
+      ],
+      apCourses: [
+        "Calculus BC",
+        "Statistics",
+        "Computer Science",
+        "Chemistry",
+        "Biology",
+        "Physics",
+        "Macroeconomics",
+        "Microeconomics",
+        "US Government & Politics",
+        "US History",
+        "Chinese",
+        "Psychology",
+        "English Literature",
+        "English Language",
+      ] as readonly string[],
     },
   ],
   experience: [
@@ -115,23 +154,50 @@ export const profile = {
   ],
   publications: [
     {
-      title: "Smart Collaborative Online Platform for Programming Education",
-      venue:
-        "12th International Conference on Software Engineering and Applications (SEAS 2023), Toronto",
-    },
-    {
-      title: "BrainBow: A Real-Time Inclusivity Index Using NLP",
-      venue: "MLNLP 2024, Sydney",
-    },
-    {
-      title:
-        "Understanding the Role of Anxiety in Learning through Zebrafish: A Computational Model",
-      venue: "Journal of Research High School, Vol. 2025(2), 108–120",
-    },
-    {
       title:
         "Design Concept of a Wearable Device for Sleep-Related Brain Wave Detection and Stimulation",
-      venue: "IEEE ICDSCA 2024",
+      venue: "2024 IEEE 4th International Conference on Data Science and Computer Application (ICDSCA)",
+      date: "Nov 2024",
+      url: "https://ieeexplore.ieee.org/document/10860034",
+      description:
+        "Led development and research for a wearable EEG-based sleep technology concept designed to improve sleep quality through brain wave detection and stimulation. Contributed to system architecture spanning EEG sensing, machine-learning-driven adaptive control, and electronic stimulation modules while coordinating interdisciplinary work across neuroscience, data science, and human-centered design. Preliminary results showed promising subsystem performance for real-time sleep monitoring and relaxation guidance.",
+    },
+    {
+      title:
+        "BrainBow: A Real-Time Inclusivity Index for Neurodiversity using Sentiment Analysis of News and Social Media",
+      venue: "MLNLP 2024, Sydney",
+      date: "Nov 2024",
+      url: "https://csitcp.com/abstract/14/1419csit17",
+      description:
+        "Authored a real-time NLP and sentiment analysis platform measuring neurodiversity inclusivity trends from social media and news data. Built data-integration and analysis pipelines using APIs, TextBlob-based sentiment analysis, and interactive Chart.js visualizations, exploring real-time processing, nuanced language interpretation, and accessibility-focused UI design.",
+    },
+    {
+      title:
+        "A Smart Interactive and Collaborative Online Coding Platform for Programming Education using Machine Learning and Web Socket",
+      venue:
+        "12th International Conference on Software Engineering and Applications (SEAS 2023), Toronto",
+      date: "Sep 2023",
+      url: "https://csitcp.org/abstract/13/1317csit03",
+      description:
+        "Authored a research paper on a machine-learning-supported collaborative coding platform for real-time programming education and accessibility — cloud databases, WebSocket communication, and synchronized collaborative editing for scalable interactive learning.",
+    },
+    {
+      title:
+        "Understanding the Role of Anxiety and Behavior in Learning through Zebrafish: A Computational Model",
+      venue: "Journal of Research High School",
+      date: "Feb 2023",
+      url: "https://www.journalresearchhs.org/_files/ugd/ebf144_2676780463194e24b37e11856c73d0a4.pdf",
+      description:
+        "Developed a computational framework analyzing the relationship between anxiety and learning behavior using zebrafish behavioral modeling and data-driven analysis techniques.",
+    },
+    {
+      title:
+        "Effects of Electronics and Video Games on Students' Academic Performance: A Survey in Irvine Areas",
+      venue: "HPHR / BCPHR Journal",
+      date: "Jan 2023",
+      url: "https://bcphr.org/72-article-zhang/",
+      description:
+        "Led a team of 7 students in a public health research initiative examining the effects of electronics, video games, and virtual learning on student academic performance and well-being in the Irvine area.",
     },
   ],
   patents: [

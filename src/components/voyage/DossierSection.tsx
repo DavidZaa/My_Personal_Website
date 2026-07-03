@@ -12,10 +12,14 @@ type Tab = (typeof TABS)[number];
 
 type Experience = (typeof profile.experience)[number];
 type Award = (typeof profile.awards)[number];
+type Publication = (typeof profile.publications)[number];
+type Education = (typeof profile.education)[number];
 
 type ModalRecord =
   | { kind: "experience"; data: Experience }
-  | { kind: "award"; data: Award };
+  | { kind: "award"; data: Award }
+  | { kind: "publication"; data: Publication }
+  | { kind: "education"; data: Education };
 
 /** Trim to a teaser that always ends in an ellipsis. */
 function teaser(text: string, max = 84): string {
@@ -47,10 +51,21 @@ function Experiences({ onOpen }: { onOpen: (r: ModalRecord) => void }) {
           </button>
         </li>
       ))}
-      <li className="rounded-sm border border-glow-b/10 p-3">
-        <p className="text-sm font-semibold text-[#e6fbff]">{profile.education[0].school}</p>
-        <p className="mt-0.5 text-xs text-ink-dim">{profile.education[0].degree}</p>
-      </li>
+      {profile.education.map((school) => (
+        <li key={school.school}>
+          <button
+            type="button"
+            onClick={() => onOpen({ kind: "education", data: school })}
+            className="w-full rounded-sm border border-glow-b/20 p-3 text-left transition-colors hover:border-glow-b/60 hover:bg-glow-b/5"
+          >
+            <p className="text-sm font-semibold text-[#e6fbff]">{school.school}</p>
+            <p className="mt-0.5 text-xs text-ink-dim">{school.degree}</p>
+            <span className="mt-1.5 inline-block font-mono text-[9px] uppercase tracking-widest text-glow-b/60">
+              tap for activities{school.apCourses.length > 0 ? " & coursework" : ""}
+            </span>
+          </button>
+        </li>
+      ))}
     </ul>
   );
 }
@@ -87,16 +102,32 @@ function Awards({ onOpen }: { onOpen: (r: ModalRecord) => void }) {
   );
 }
 
-function Publications() {
+function Publications({ onOpen }: { onOpen: (r: ModalRecord) => void }) {
   return (
     <div className="space-y-6">
       <div>
         <p className="hud-label mb-2.5 !text-glow-b/70">publications</p>
-        <ul className="space-y-2.5">
+        <ul className="space-y-2">
           {profile.publications.map((p) => (
             <li key={p.title}>
-              <p className="text-xs leading-snug text-[#e6fbff]">{p.title}</p>
-              <p className="mt-0.5 font-mono text-[10px] text-ink-dim">{p.venue}</p>
+              <button
+                type="button"
+                onClick={() => onOpen({ kind: "publication", data: p })}
+                className="w-full rounded-sm border border-glow-b/20 p-3 text-left transition-colors hover:border-glow-b/60 hover:bg-glow-b/5"
+              >
+                <p className="text-xs font-semibold leading-snug text-[#e6fbff]">
+                  {p.title}
+                </p>
+                <p className="mt-1 font-mono text-[10px] text-glow-b/70">
+                  {p.venue} · {p.date}
+                </p>
+                <p className="mt-1 text-[11px] leading-snug text-ink-dim">
+                  {teaser(p.description, 76)}
+                </p>
+                <span className="mt-1.5 inline-block font-mono text-[9px] uppercase tracking-widest text-glow-b/60">
+                  tap to expand · full text link inside
+                </span>
+              </button>
             </li>
           ))}
         </ul>
@@ -372,7 +403,7 @@ export function DossierSection() {
                 hologram record · {tab.toLowerCase()}
               </p>
               {tab === "Experiences" && <Experiences onOpen={setRecord} />}
-              {tab === "Publications" && <Publications />}
+              {tab === "Publications" && <Publications onOpen={setRecord} />}
               {tab === "Awards" && <Awards onOpen={setRecord} />}
               {tab === "Systems" && <Systems />}
               {tab === "Clubs" && <Clubs />}
@@ -388,12 +419,18 @@ export function DossierSection() {
         title={
           record?.kind === "experience"
             ? record.data.org
-            : (record?.data.title ?? "")
+            : record?.kind === "education"
+              ? record.data.school
+              : (record?.data.title ?? "")
         }
         meta={
           record?.kind === "experience"
             ? `${record.data.role} · ${record.data.period} · ${record.data.location}`
-            : record?.data.meta
+            : record?.kind === "education"
+              ? `${record.data.degree} · ${record.data.location}`
+              : record?.kind === "publication"
+                ? `${record.data.venue} · ${record.data.date}`
+                : record?.data.meta
         }
         onClose={() => setRecord(null)}
       >
@@ -406,6 +443,50 @@ export function DossierSection() {
               </li>
             ))}
           </ul>
+        )}
+        {record?.kind === "publication" && (
+          <div className="space-y-5">
+            <p className="text-sm leading-relaxed text-ink-dim">
+              {record.data.description}
+            </p>
+            <GlowButton href={record.data.url} external>
+              View publication ↗
+            </GlowButton>
+          </div>
+        )}
+        {record?.kind === "education" && (
+          <div className="space-y-5">
+            <div>
+              <p className="hud-label mb-2 !text-glow-b/60">
+                activities & societies
+              </p>
+              <ul className="grid gap-1.5 sm:grid-cols-2">
+                {record.data.activities.map((a) => (
+                  <li key={a} className="flex items-start gap-1.5 text-xs leading-relaxed text-ink-dim">
+                    <span aria-hidden className="text-glow-b/60">▹</span>
+                    {a}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            {record.data.apCourses.length > 0 && (
+              <div>
+                <p className="hud-label mb-2 !text-glow-b/60">
+                  ap coursework · {record.data.apCourses.length} exams
+                </p>
+                <div className="flex flex-wrap gap-1.5">
+                  {record.data.apCourses.map((c) => (
+                    <span
+                      key={c}
+                      className="rounded-sm border border-glow-b/25 px-2 py-0.5 font-mono text-[10px] text-ink-dim"
+                    >
+                      {c}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
         )}
         {record?.kind === "award" && (
           <div className="space-y-4">
