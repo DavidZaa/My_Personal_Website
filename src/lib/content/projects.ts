@@ -11,6 +11,8 @@ export interface Project {
   origin: ProjectOrigin;
   github?: string;
   liveUrl?: string;
+  /** published research paper for this project */
+  paperUrl?: string;
   featured: boolean;
   status: ProjectStatus;
 }
@@ -146,6 +148,7 @@ export const projects: Project[] = [
     year: "2024",
     origin: "patent",
     github: "https://github.com/DavidZaa/BrainBow",
+    paperUrl: "https://csitcp.com/abstract/14/1419csit17",
     featured: false,
     status: "research",
   },
@@ -159,6 +162,7 @@ export const projects: Project[] = [
     year: "2022–23",
     origin: "research",
     github: "https://github.com/DavidZaa/Web-Coding-Editor",
+    paperUrl: "https://csitcp.org/abstract/13/1317csit03",
     featured: false,
     status: "shipped",
   },
@@ -171,6 +175,8 @@ export const projects: Project[] = [
     tech: ["Python", "Behavioral Modeling", "Data Analysis"],
     year: "2025",
     origin: "research",
+    paperUrl:
+      "https://www.journalresearchhs.org/_files/ugd/ebf144_2676780463194e24b37e11856c73d0a4.pdf",
     featured: false,
     status: "research",
   },
@@ -183,6 +189,7 @@ export const projects: Project[] = [
     tech: ["Embedded", "Signal Processing", "Research"],
     year: "2024",
     origin: "research",
+    paperUrl: "https://ieeexplore.ieee.org/document/10860034",
     featured: false,
     status: "research",
   },

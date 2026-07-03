@@ -298,14 +298,23 @@ export function HangarBay() {
                         Live demo ↗
                       </GlowButton>
                     )}
+                    {project.paperUrl && (
+                      <GlowButton
+                        href={project.paperUrl}
+                        external
+                        variant={project.liveUrl ? "ghost" : "solid"}
+                      >
+                        Read the paper ↗
+                      </GlowButton>
+                    )}
                     {project.github && (
                       <GlowButton href={project.github} external variant="ghost">
                         GitHub ↗
                       </GlowButton>
                     )}
-                    {!project.liveUrl && !project.github && (
+                    {!project.liveUrl && !project.github && !project.paperUrl && (
                       <p className="font-mono text-xs text-ink-dim">
-                        records sealed — publication/patent only
+                        records sealed — patent only
                       </p>
                     )}
                   </div>
