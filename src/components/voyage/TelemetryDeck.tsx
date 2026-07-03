@@ -110,9 +110,9 @@ export function TelemetryDeck({
           {/* Gauges row */}
           <div className="grid grid-cols-2 gap-8 sm:grid-cols-4">
             <Gauge
-              value={github?.monthlyContributions ?? 0}
-              max={200}
-              label="contributions · mo"
+              value={github?.totalContributions ?? 0}
+              max={500}
+              label="contributions · yr"
               color="#8b5cf6"
               signalLost={!github}
             />
