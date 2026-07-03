@@ -69,14 +69,67 @@ function Publications() {
 }
 
 function Awards() {
+  const [openLog, setOpenLog] = useState<string | null>(null);
+
   return (
-    <ul className="grid gap-2.5 sm:grid-cols-2">
-      {profile.awards.map((a) => (
-        <li key={a} className="flex items-start gap-2 text-xs leading-relaxed text-[#e6fbff]">
-          <span aria-hidden className="text-glow-warm">✦</span>
-          {a}
-        </li>
-      ))}
+    <ul className="grid gap-3 sm:grid-cols-2">
+      {profile.awards.map((a) => {
+        const hasLog = "highlights" in a && a.highlights && a.highlights.length > 0;
+        const open = openLog === a.title;
+        return (
+          <li
+            key={a.title}
+            className={`rounded-sm border border-glow-b/20 p-3 transition-colors hover:border-glow-b/50 ${
+              hasLog ? "sm:col-span-2" : ""
+            }`}
+          >
+            <div className="flex items-start gap-2">
+              <span aria-hidden className="mt-px text-glow-warm">✦</span>
+              <div className="min-w-0 flex-1">
+                <p className="text-xs font-semibold leading-snug text-[#e6fbff]">
+                  {a.title}
+                </p>
+                {a.meta && (
+                  <p className="mt-0.5 font-mono text-[10px] text-glow-b/70">
+                    {a.meta}
+                  </p>
+                )}
+                {a.detail && (
+                  <p className="mt-1 text-[11px] leading-relaxed text-ink-dim">
+                    {a.detail}
+                  </p>
+                )}
+                {hasLog && (
+                  <>
+                    <button
+                      type="button"
+                      onClick={() => setOpenLog(open ? null : a.title)}
+                      aria-expanded={open}
+                      className="mt-2 font-mono text-[10px] uppercase tracking-widest text-glow-b hover:underline"
+                    >
+                      {open ? "▾ collapse trophy log" : "▸ open trophy log"} ·{" "}
+                      {a.highlights!.length} records
+                    </button>
+                    {open && (
+                      <ul className="mt-2 grid gap-1 border-t border-glow-b/20 pt-2 sm:grid-cols-2">
+                        {a.highlights!.map((h) => (
+                          <li
+                            key={h}
+                            className="flex items-start gap-1.5 text-[11px] leading-relaxed text-ink-dim"
+                          >
+                            <span aria-hidden className="text-glow-b/60">▹</span>
+                            {h}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </>
+                )}
+              </div>
+            </div>
+          </li>
+        );
+      })}
     </ul>
   );
 }

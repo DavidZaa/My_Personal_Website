@@ -136,16 +136,79 @@ export const profile = {
     },
   ],
   awards: [
-    "USA Computing Olympiad — Platinum Division",
-    "VEX Robotics World Championship Finalist ×2",
-    "AI Challengers — USA Regional Winner & Global Finalist (2023)",
-    "OCSEF Raytheon Science & Engineering Special Award",
-    "President's Volunteer Service Award — Gold (2022/23) & Silver (2021/22)",
-    "Ignite CS Contest — 2nd Place, Web & App (2023)",
-    "GameGala Game Design — 2nd Place (2023)",
-    "Piano Certificate of Merit — Level 9",
-    "National Economic Challenge & National Personal Finance Challenge — State Qualifier (2023)",
-    "Multiple Model UN Awards — University High School",
+    {
+      title: "USA Computing Olympiad — Platinum Division",
+      meta: "Feb 2024",
+      detail: "Passed the Platinum Division for the USA Computing Olympiad.",
+    },
+    {
+      title: "VEX Robotics World Championship Finalist ×2",
+      meta: "May 2024 · Team Irvine Ruiguan — Arctic Penguins — 80920A",
+      detail:
+        "Qualified for the World Championship ×2 and the Event Region Championship ×2.",
+      highlights: [
+        "2025 VEX Robotics World Championship — VEX V5 Robotics Competition",
+        "2024 VEX Robotics World Championship — VEX Robotics Competition",
+        "2024–25 VEX V5 Asia Open Signature Event — Tournament Champions",
+        "2024–25 VEX V5 Asia Open Signature Event — Robot Skills 3rd Place",
+        "2025 Roundtable Robotics Challenge \"High Stakes\" — Tournament Champions",
+        "2025 Roundtable Robotics Challenge \"High Stakes\" — Robot Skills Champions",
+        "NorCal Silicon Valley VEX V5 Signature Event — Tournament Champions",
+        "2023–24 VRC Asia Open Signature Event — Tournament Semifinalists",
+        "2024 San Diego VEX Robotics Tournament — Robot Skills Champion",
+        "San Diego 2nd Annual Last Chance Tournament — Event Region Champion",
+        "San Diego 2nd Annual Last Chance Tournament — Robot Skills Champion",
+      ],
+    },
+    {
+      title: "AI Challengers — USA Regional Winner & Global Finalist",
+      meta: "Nov 2023",
+      detail:
+        "Won the regional division and advanced to the global finals in an international AI competition focused on machine learning, innovation, and real-world AI applications.",
+    },
+    {
+      title: "OCSEF Raytheon Science & Engineering Special Award",
+      meta: "Orange County Science & Engineering Fair · Jan 2024",
+    },
+    {
+      title: "National Merit Scholarship Finalist",
+      meta: "99th percentile PSAT",
+    },
+    {
+      title: "NSLI-Y Scholarship",
+      meta: "U.S. Department of State",
+      detail:
+        "National Security Language Initiative for Youth (NSLI-Y) scholarship program.",
+    },
+    {
+      title: "President's Volunteer Service Award — Gold",
+      meta: "AmeriCorps / The President's Volunteer Service Award",
+      detail:
+        "Recognizing significant community service, leadership, and volunteer contributions through educational and civic initiatives.",
+    },
+    {
+      title: "$11K+ Earnings in Competitive No-Limit Hold'em",
+      detail:
+        "Generated over $11,000 in earnings, applying probabilistic reasoning, risk management, strategic decision-making, and behavioral analysis in high-variance environments.",
+    },
+    {
+      title: "National Economics Challenge — State Finalist",
+    },
+    {
+      title: "National Personal Finance Challenge — State Finalist",
+    },
+    {
+      title: "Burger King Scholarship",
+    },
+    {
+      title: "GameGala Game Design Competition — 2nd Place",
+    },
+    {
+      title: "IgniteCS Programming Expo — 2nd Place",
+    },
+    {
+      title: "Piano Certificate of Merit — Level 9",
+    },
   ],
   skills: [
     "Python",
