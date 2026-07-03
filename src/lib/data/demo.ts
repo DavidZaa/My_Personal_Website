@@ -143,13 +143,13 @@ function synthCalendar(): GithubStats["contributionCalendar"] {
   // Deterministic pseudo-random contribution pattern — looks organic,
   // renders identically on server and client (no hydration mismatch).
   const days: GithubStats["contributionCalendar"] = [];
-  const start = new Date("2025-07-06T00:00:00.000Z");
+  const start = new Date("2026-05-31T00:00:00.000Z");
   let seed = 42;
   const rand = () => {
     seed = (seed * 1103515245 + 12345) % 2147483648;
     return seed / 2147483648;
   };
-  for (let i = 0; i < 371; i++) {
+  for (let i = 0; i < 35; i++) {
     const d = new Date(start.getTime() + i * 86400000);
     const weekday = d.getUTCDay();
     const busy = weekday > 0 && weekday < 6 ? 0.75 : 0.45;
@@ -174,10 +174,14 @@ export const demoGithubStats: GithubStats = {
   totalStars: 87,
   followers: 42,
   topLanguages: [
-    { name: "Python", color: "#3572A5", percent: 38 },
-    { name: "TypeScript", color: "#3178c6", percent: 31 },
-    { name: "C++", color: "#f34b7d", percent: 18 },
-    { name: "JavaScript", color: "#f1e05a", percent: 13 },
+    { name: "Python", color: "#3572A5", percent: 32 },
+    { name: "TypeScript", color: "#3178c6", percent: 24 },
+    { name: "C++", color: "#f34b7d", percent: 14 },
+    { name: "JavaScript", color: "#f1e05a", percent: 11 },
+    { name: "Jupyter Notebook", color: "#DA5B0B", percent: 8 },
+    { name: "CSS", color: "#663399", percent: 6 },
+    { name: "C", color: "#555555", percent: 3 },
+    { name: "Shell", color: "#89e051", percent: 2 },
   ],
   contributionCalendar: synthCalendar(),
 };

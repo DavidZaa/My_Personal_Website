@@ -25,12 +25,8 @@ const payload: GraphqlViewer = {
   followers: { totalCount: 42 },
   monthly: {
     totalCommitContributions: 31,
-    contributionCalendar: { totalContributions: 48 },
-  },
-  contributionsCollection: {
-    totalCommitContributions: 500,
     contributionCalendar: {
-      totalContributions: 700,
+      totalContributions: 48,
       weeks: [
         {
           contributionDays: [
@@ -42,6 +38,10 @@ const payload: GraphqlViewer = {
         },
       ],
     },
+  },
+  contributionsCollection: {
+    totalCommitContributions: 500,
+    contributionCalendar: { totalContributions: 700 },
   },
 };
 
@@ -57,13 +57,14 @@ describe("mapGithubGraphql", () => {
     expect(stats.monthlyCommits).toBe(31);
   });
 
-  it("merges language bytes across repos and computes percents", () => {
+  it("weights language share per repo, not by raw bytes", () => {
+    // repo1: Python 75% / TS 25%; repo2: Python 100% → Python 87.5%, TS 12.5%
     const { topLanguages } = mapGithubGraphql(payload);
-    expect(topLanguages[0]).toEqual({ name: "Python", color: "#3572A5", percent: 80 });
-    expect(topLanguages[1]).toEqual({ name: "TypeScript", color: "#3178c6", percent: 20 });
+    expect(topLanguages[0]).toEqual({ name: "Python", color: "#3572A5", percent: 88 });
+    expect(topLanguages[1]).toEqual({ name: "TypeScript", color: "#3178c6", percent: 13 });
   });
 
-  it("flattens the calendar with correct intensity levels", () => {
+  it("flattens the monthly calendar with correct intensity levels", () => {
     const { contributionCalendar } = mapGithubGraphql(payload);
     expect(contributionCalendar.map((d) => d.level)).toEqual([0, 1, 3, 4]);
   });

@@ -64,7 +64,7 @@ export interface GithubStats {
   totalStars: number;
   followers: number;
   topLanguages: { name: string; color: string; percent: number }[];
-  /** 53 weeks × 7 days of contribution counts, oldest week first */
+  /** trailing ~5 weeks of daily contribution counts, oldest first */
   contributionCalendar: { date: string; count: number; level: 0 | 1 | 2 | 3 | 4 }[];
 }
 

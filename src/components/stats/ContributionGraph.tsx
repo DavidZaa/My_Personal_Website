@@ -9,9 +9,6 @@ const LEVELS = [
   "#c4b5fd",
 ] as const;
 
-const CELL = 8;
-const GAP = 2;
-
 export function ContributionGraph({
   calendar,
 }: {
@@ -23,8 +20,14 @@ export function ContributionGraph({
   for (let i = 0; i < calendar.length; i += 7) {
     weeks.push(calendar.slice(i, i + 7));
   }
-  const width = weeks.length * (CELL + GAP);
-  const height = 7 * (CELL + GAP);
+
+  // A trailing month reads like a calendar page (rows of weeks, big cells);
+  // anything longer falls back to the classic year strip (columns of weeks).
+  const monthView = calendar.length <= 56;
+  const cell = monthView ? 18 : 8;
+  const gap = monthView ? 4 : 2;
+  const width = (monthView ? 7 : weeks.length) * (cell + gap);
+  const height = (monthView ? weeks.length : 7) * (cell + gap);
 
   return (
     <div className="overflow-x-auto">
@@ -33,18 +36,18 @@ export function ContributionGraph({
         width={width}
         height={height}
         role="img"
-        aria-label="GitHub contribution calendar for the past year"
+        aria-label={`GitHub contribution calendar for the past ${monthView ? "month" : "year"}`}
         className="block"
       >
         {weeks.map((week, wi) =>
           week.map((day, di) => (
             <rect
               key={day.date}
-              x={wi * (CELL + GAP)}
-              y={di * (CELL + GAP)}
-              width={CELL}
-              height={CELL}
-              rx={2}
+              x={(monthView ? di : wi) * (cell + gap)}
+              y={(monthView ? wi : di) * (cell + gap)}
+              width={cell}
+              height={cell}
+              rx={monthView ? 4 : 2}
               fill={LEVELS[day.level]}
             >
               <title>{`${day.date}: ${day.count} contribution${day.count === 1 ? "" : "s"}`}</title>

@@ -100,6 +100,12 @@ export function TelemetryDeck({
   return (
     <section id="telemetry" className="scroll-mt-16">
       <div className="mx-auto max-w-6xl px-6">
+        <div className="mb-8">
+          <p className="hud-label mb-2">telemetry deck</p>
+          <h2 className="text-3xl font-semibold glow-text sm:text-4xl">
+            Analytics This Month
+          </h2>
+        </div>
         <div className="hud-panel rounded-sm p-8">
           {/* Gauges row */}
           <div className="grid grid-cols-2 gap-8 sm:grid-cols-4">
@@ -149,7 +155,7 @@ export function TelemetryDeck({
           {/* Contribution field */}
           {github && github.contributionCalendar.length > 0 && (
             <div className="mt-10 border-t border-line pt-8">
-              <p className="hud-label mb-3">contribution field · trailing year</p>
+              <p className="hud-label mb-3">contribution field · trailing month</p>
               <ContributionGraph calendar={github.contributionCalendar} />
             </div>
           )}
