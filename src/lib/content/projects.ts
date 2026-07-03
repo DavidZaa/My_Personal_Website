@@ -13,6 +13,8 @@ export interface Project {
   liveUrl?: string;
   /** published research paper for this project */
   paperUrl?: string;
+  /** published write-up/article for this project */
+  articleUrl?: string;
   featured: boolean;
   status: ProjectStatus;
 }
@@ -95,12 +97,28 @@ export const projects: Project[] = [
     name: "MyLA311 Wait-Time Atlas",
     tagline: "Where and why LA residents wait longer for city services",
     description:
-      "Leading a 5–6 person UCLA DataRes team analyzing MyLA311 open data across request types, ZIP codes, and submission channels — a Python/Colab pipeline and Plotly dashboard feeding staffing and routing recommendations, written up for the DataBlog.",
+      "Led a UCLA DataRes team analyzing 2024 MyLA311 open data — response-time disparities across request types, neighborhoods, and submission channels, from heatmaps to time-series demand cycles — published on the DataRes DataBlog.",
     tech: ["Python", "Pandas", "Plotly", "Open Data"],
     year: "2025–26",
     origin: "club",
+    articleUrl:
+      "https://ucladatares.medium.com/an-analysis-of-los-angeles-311-requests-b9b79a721af4",
     featured: false,
-    status: "active",
+    status: "shipped",
+  },
+  {
+    slug: "datares-airbnb",
+    name: "Airbnb Price & Occupancy Signals",
+    tagline: "Forecasting nightly price and occupancy for NYC & LA Airbnbs",
+    description:
+      "Led a UCLA DataRes team modeling 10,752 NYC and LA listings — revenue regressions, occupancy forecasting, price-tier volatility, demand-shock detection, and unsupervised anomaly flagging — published on the DataRes DataBlog.",
+    tech: ["Python", "Pandas", "scikit-learn", "Time Series"],
+    year: "2026",
+    origin: "club",
+    articleUrl:
+      "https://ucladatares.medium.com/predicting-nightly-price-and-occupancy-signals-for-airbnbs-606e7275768c",
+    featured: false,
+    status: "shipped",
   },
   {
     slug: "vice-mayor-chatbot",

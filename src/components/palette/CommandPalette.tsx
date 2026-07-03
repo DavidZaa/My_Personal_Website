@@ -88,10 +88,10 @@ export function CommandPalette() {
         </Command.Group>
 
         <Command.Group heading="Projects">
-          {projects.filter((p) => p.github || p.liveUrl).map((p) => (
+          {projects.filter((p) => p.github || p.liveUrl || p.articleUrl).map((p) => (
             <Command.Item
               key={p.slug}
-              onSelect={() => ext(p.liveUrl ?? p.github!)}
+              onSelect={() => ext(p.liveUrl ?? p.articleUrl ?? p.github!)}
               className="cursor-pointer rounded-sm px-3 py-2 text-sm aria-selected:bg-glow-a/20 aria-selected:text-white"
             >
               {p.name} <span className="ml-2 font-mono text-[10px] text-ink-dim">↗</span>

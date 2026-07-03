@@ -16,7 +16,7 @@ export const profile = {
   name: "David Zhang",
   title: "CS & Math of Computation @ UCLA",
   location: "Los Angeles, CA",
-  bio: "I study Computer Science & Mathematics of Computation at UCLA, with a minor in Linguistics.",
+  bio: "I research, I code, I work out, I experiment, I play poker, I go on long drives.",
   links: {
     github: "https://github.com/DavidZaa",
     linkedin: "https://www.linkedin.com/in/davidzzzhang/",

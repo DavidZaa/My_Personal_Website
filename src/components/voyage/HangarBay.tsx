@@ -307,12 +307,21 @@ export function HangarBay() {
                         Read the paper ↗
                       </GlowButton>
                     )}
+                    {project.articleUrl && (
+                      <GlowButton
+                        href={project.articleUrl}
+                        external
+                        variant={project.liveUrl || project.paperUrl ? "ghost" : "solid"}
+                      >
+                        Read the article ↗
+                      </GlowButton>
+                    )}
                     {project.github && (
                       <GlowButton href={project.github} external variant="ghost">
                         GitHub ↗
                       </GlowButton>
                     )}
-                    {!project.liveUrl && !project.github && !project.paperUrl && (
+                    {!project.liveUrl && !project.github && !project.paperUrl && !project.articleUrl && (
                       <p className="font-mono text-xs text-ink-dim">
                         records sealed — patent only
                       </p>
