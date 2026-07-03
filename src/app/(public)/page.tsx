@@ -1,6 +1,7 @@
 import { BootSequence } from "@/components/boot/BootSequence";
 import { Hero } from "@/components/hero/Hero";
 import { Starfield } from "@/components/voyage/Starfield";
+import { Bulkhead } from "@/components/voyage/Bulkhead";
 import { DossierSection } from "@/components/voyage/DossierSection";
 import { HangarBay } from "@/components/voyage/HangarBay";
 import { TransmissionSection } from "@/components/voyage/TransmissionSection";
@@ -40,8 +41,13 @@ export default async function Home() {
       <Hero />
 
       <div className="space-y-28 pb-16">
-        <DossierSection />
-        <HangarBay />
+        {/* Crew deck and payload deck are adjoining ship interiors —
+            joined by a bulkhead seam, not separated by open space. */}
+        <div>
+          <DossierSection />
+          <Bulkhead label="deck 02 · payload bay" />
+          <HangarBay />
+        </div>
         <TransmissionSection post={posts[0] ?? null} />
         <TelemetryDeck
           github={github}

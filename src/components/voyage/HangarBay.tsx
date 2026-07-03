@@ -148,7 +148,7 @@ export function HangarBay() {
   return (
     <section id="payload" className="scroll-mt-16">
       {/* Full-bleed hangar interior */}
-      <div className="relative overflow-hidden border-y border-[#1a1c2c] bg-[#07080f] py-14 [mask-image:linear-gradient(to_bottom,transparent,black_7rem,black_calc(100%-4rem),transparent)]">
+      <div className="relative overflow-hidden bg-[#07080f] py-14 [mask-image:linear-gradient(to_bottom,black,black_calc(100%-4rem),transparent)]">
         {/* ceiling truss */}
         <div
           aria-hidden

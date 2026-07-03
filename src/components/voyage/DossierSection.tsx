@@ -242,7 +242,7 @@ export function DossierSection() {
     <section id="dossier" className="scroll-mt-16">
       {/* The cargo hold: its own room, deliberately not open space.
           Top edge fades in from open space so there's no hard seam. */}
-      <div className="relative overflow-hidden border-b border-[#12262c] bg-[#060b0e] pb-16 pt-36 [mask-image:linear-gradient(to_bottom,transparent,black_22rem)]">
+      <div className="relative overflow-hidden bg-[#060b0e] pb-16 pt-36 [mask-image:linear-gradient(to_bottom,transparent,black_22rem)]">
         {/* back-wall fog + overhead light shafts */}
         <div
           aria-hidden
