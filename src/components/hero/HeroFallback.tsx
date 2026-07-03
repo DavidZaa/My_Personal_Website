@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { PLANETS } from "./planets";
 
 /**
@@ -32,7 +31,7 @@ export function HeroFallback({ animate = true }: { animate?: boolean }) {
                   : { transform: `rotate(${i * 97}deg)` }
               }
             >
-              <Link
+              <a
                 href={p.href}
                 aria-label={p.label}
                 className="group absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2"
@@ -44,7 +43,7 @@ export function HeroFallback({ animate = true }: { animate?: boolean }) {
                     boxShadow: `0 0 14px ${p.color}`,
                   }}
                 />
-              </Link>
+              </a>
             </div>
           </div>
         );

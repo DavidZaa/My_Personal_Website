@@ -1,7 +1,6 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { useRouter } from "next/navigation";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Html, Stars } from "@react-three/drei";
 import * as THREE from "three";
@@ -162,14 +161,17 @@ function SystemRig({ warpTarget }: { warpTarget: string | null }) {
 }
 
 export default function StarSystem() {
-  const router = useRouter();
   const [warpTarget, setWarpTarget] = useState<string | null>(null);
   const rigGroup = useRef<THREE.Group>(null);
 
+  // Planets warp-scroll to their voyage section instead of routing away.
   const navigate = (href: string) => {
     if (warpTarget) return;
     setWarpTarget(href);
-    setTimeout(() => router.push(href), 480);
+    setTimeout(() => {
+      document.querySelector(href)?.scrollIntoView({ behavior: "smooth" });
+      setTimeout(() => setWarpTarget(null), 900);
+    }, 420);
   };
 
   return (
