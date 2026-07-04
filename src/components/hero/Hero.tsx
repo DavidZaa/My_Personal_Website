@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import { GlowButton } from "@/components/ui/GlowButton";
 import { profile } from "@/lib/content/profile";
 import { HeroFallback } from "./HeroFallback";
+import { decideHeroMode } from "./heroMode";
 
 const StarSystem = dynamic(() => import("./StarSystem"), {
   ssr: false,
@@ -31,7 +32,9 @@ export function Hero() {
       const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       const small = window.matchMedia("(max-width: 768px)").matches;
       setReduced(reducedMotion);
-      setMode(!reducedMotion && !small && supportsWebgl() ? "3d" : "fallback");
+      setMode(
+        decideHeroMode({ reducedMotion, smallViewport: small, webgl: supportsWebgl() }),
+      );
     });
     return () => cancelAnimationFrame(raf);
   }, []);
