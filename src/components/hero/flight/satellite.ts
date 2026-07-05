@@ -4,7 +4,7 @@ export const SATELLITE_POS = { x: 12, z: 6 } as const;
 const FOUND_KEY = "dz01_helm_signal";
 
 export const SATELLITE_MESSAGE =
-  "unregistered relay · you found the quiet part of the map — say hi: davidzha77@g.ucla.edu";
+  "If you enjoyed the website, you can reach me at davidzha77@g.ucla.edu!";
 
 export function isNearSatellite(
   pos: { x: number; z: number },
