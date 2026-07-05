@@ -1,60 +1,62 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import { Stars } from "@react-three/drei";
 import { AnimatePresence, motion } from "framer-motion";
 import { lockBodyScroll } from "@/lib/scrollLock";
 import { PLANETS } from "../planets";
 import { OrbitRing, PlanetBody, Sun } from "../SystemBodies";
-import { Ship } from "./Ship";
-import { SatelliteBody } from "./SatelliteBody";
-import { SATELLITE_MESSAGE, hasFoundSatellite, markSatelliteFound } from "./satellite";
+import { GameScene, type HudState } from "./GameScene";
+import { GAME_OVER_MESSAGE, saveBestScore } from "./store";
 
 export default function FlightMode({ onExit }: { onExit: () => void }) {
-  const [outOfBounds, setOutOfBounds] = useState(false);
-  const [signal, setSignal] = useState(false);
-  const [showHint, setShowHint] = useState(true);
+  const [hud, setHud] = useState<HudState>({
+    status: "start",
+    score: 0,
+    best: 0,
+    lives: 3,
+    wave: 0,
+  });
+  const savedBest = useRef(0);
 
-  // Lock scroll, trap ESC, and make browser Back exit instead of leaving.
   useEffect(() => {
     const unlock = lockBodyScroll();
     window.history.pushState({ helm: true }, "");
-
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") onExit();
     };
     const onPop = () => onExit();
     window.addEventListener("keydown", onKey);
     window.addEventListener("popstate", onPop);
-
-    const hintTimer = window.setTimeout(() => setShowHint(false), 5000);
-
     return () => {
       unlock();
-      window.clearTimeout(hintTimer);
       window.removeEventListener("keydown", onKey);
       window.removeEventListener("popstate", onPop);
     };
   }, [onExit]);
 
-  const onNearSatellite = () => {
-    if (hasFoundSatellite()) return;
-    markSatelliteFound();
-    setSignal(true);
-    window.setTimeout(() => setSignal(false), 9000);
-  };
+  // Persist a new best once, when a run ends.
+  useEffect(() => {
+    if (hud.status === "over" && hud.best > savedBest.current) {
+      savedBest.current = hud.best;
+      saveBestScore(hud.best);
+    }
+  }, [hud.status, hud.best]);
+
+  const lives = Array.from({ length: 3 }, (_, i) => i < hud.lives);
 
   return (
     <div className="fixed inset-0 z-50 bg-[#050510]">
       <Canvas
-        camera={{ position: [0, 4.5, 9], fov: 55 }}
+        camera={{ position: [0, 18, 6], fov: 55 }}
         gl={{ antialias: true, alpha: false }}
         onCreated={({ gl }) => gl.setClearColor("#050510")}
         dpr={[1, 2]}
       >
-        <ambientLight intensity={0.25} />
-        <Stars radius={80} depth={50} count={3200} factor={3.4} saturation={0} fade speed={0.5} />
+        <ambientLight intensity={0.3} />
+        <Stars radius={90} depth={50} count={3000} factor={3.4} saturation={0} fade speed={0.4} />
+        {/* backdrop scenery */}
         <Sun />
         {PLANETS.map((p) => (
           <group key={p.href}>
@@ -62,8 +64,7 @@ export default function FlightMode({ onExit }: { onExit: () => void }) {
             <PlanetBody spec={p} />
           </group>
         ))}
-        <SatelliteBody />
-        <Ship onBoundary={setOutOfBounds} onNearSatellite={onNearSatellite} />
+        <GameScene onHud={setHud} />
       </Canvas>
 
       {/* exit */}
@@ -74,45 +75,54 @@ export default function FlightMode({ onExit }: { onExit: () => void }) {
         exit helm ✕
       </button>
 
-      {/* controls hint — fades after a few seconds */}
+      {/* live HUD while playing */}
+      {hud.status === "playing" && (
+        <div className="hud-label pointer-events-none absolute left-5 top-5 space-y-1 text-ink">
+          <div>score {hud.score}</div>
+          <div className="text-ink-dim">best {hud.best}</div>
+          <div className="text-glow-b">
+            {lives.map((alive, i) => (
+              <span key={i} style={{ opacity: alive ? 1 : 0.2 }}>
+                ▲
+              </span>
+            ))}
+            <span className="ml-3 text-ink-dim">wave {hud.wave}</span>
+          </div>
+        </div>
+      )}
+
+      {/* start screen */}
       <AnimatePresence>
-        {showHint && (
+        {hud.status === "start" && (
           <motion.div
-            initial={{ opacity: 0, y: 10 }}
+            initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0 }}
-            className="hud-label pointer-events-none absolute bottom-6 left-1/2 -translate-x-1/2 text-center text-ink-dim"
+            className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center text-center"
           >
-            W / ↑ thrust · A D / ← → steer · S / ↓ brake · mouse to fly · esc to exit
+            <p className="hud-label mb-2 text-glow-b">take the helm</p>
+            <h2 className="mb-4 text-3xl font-semibold glow-text">shoot the asteroids</h2>
+            <p className="hud-label mb-1 text-ink-dim">← → turn · ↑ thrust · space fire · esc exit</p>
+            <p className="hud-label mb-6 text-ink-dim">best {hud.best}</p>
+            <p className="hud-label animate-pulse text-ink">press space to launch</p>
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* soft boundary warning */}
+      {/* game over */}
       <AnimatePresence>
-        {outOfBounds && (
+        {hud.status === "over" && (
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="hud-label pointer-events-none absolute left-1/2 top-6 -translate-x-1/2 text-glow-warm"
-          >
-            leaving charted space — turning back
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* easter-egg transmission */}
-      <AnimatePresence>
-        {signal && (
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
+            initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0 }}
-            className="pointer-events-none absolute bottom-20 left-1/2 w-[min(90vw,520px)] -translate-x-1/2 rounded-sm border border-line-bright bg-black/60 px-5 py-4 text-center backdrop-blur"
+            className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center px-6 text-center"
           >
-            <p className="hud-label mb-1 text-glow-b">incoming transmission</p>
-            <p className="text-sm text-ink">{SATELLITE_MESSAGE}</p>
+            <p className="hud-label mb-3 text-glow-warm">game over</p>
+            <p className="mb-6 max-w-md text-sm text-ink">{GAME_OVER_MESSAGE}</p>
+            <p className="text-2xl font-semibold glow-text">score {hud.score}</p>
+            <p className="hud-label mb-6 mt-1 text-ink-dim">best {hud.best}</p>
+            <p className="hud-label animate-pulse text-ink">press space to fly again</p>
           </motion.div>
         )}
       </AnimatePresence>
