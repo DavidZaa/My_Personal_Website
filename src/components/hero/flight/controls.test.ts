@@ -4,8 +4,20 @@ import {
   applyPointerThrust,
   applyPointerTurn,
   initialInputState,
+  isFlightKey,
   resolveFlightInput,
 } from "./controls";
+
+describe("isFlightKey", () => {
+  it("is true for mapped gameplay keys and false otherwise", () => {
+    for (const code of ["KeyW", "KeyA", "KeyS", "KeyD", "ArrowUp", "ArrowLeft"]) {
+      expect(isFlightKey(code)).toBe(true);
+    }
+    for (const code of ["Escape", "KeyK", "Space", "Tab"]) {
+      expect(isFlightKey(code)).toBe(false);
+    }
+  });
+});
 
 describe("applyKey", () => {
   it("maps W and ArrowUp to thrust", () => {

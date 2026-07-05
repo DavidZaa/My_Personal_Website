@@ -40,4 +40,21 @@ describe("useFlightControls", () => {
     fireEvent.mouseUp(window);
     expect(get().current.pointerThrust).toBe(false);
   });
+
+  it("stops gameplay keys from reaching the page's own listeners, but lets others through", () => {
+    mount();
+    const reached: string[] = [];
+    const pageListener = (e: Event) => reached.push((e as KeyboardEvent).code);
+    // Bubble-phase window listener, like the hangar's arrow navigation.
+    window.addEventListener("keydown", pageListener);
+    try {
+      // Real events must bubble for a bubble-phase listener to hear them.
+      window.dispatchEvent(new KeyboardEvent("keydown", { code: "ArrowLeft", bubbles: true }));
+      window.dispatchEvent(new KeyboardEvent("keydown", { code: "Escape", bubbles: true }));
+      expect(reached).not.toContain("ArrowLeft"); // captured + stopped
+      expect(reached).toContain("Escape"); // passes through untouched
+    } finally {
+      window.removeEventListener("keydown", pageListener);
+    }
+  });
 });

@@ -37,6 +37,12 @@ const KEY_MAP: Record<string, Action> = {
   ArrowRight: "right",
 };
 
+/** Does this key drive the ship? Used to stop gameplay keys from leaking to
+ * the page's own global listeners (e.g. the hangar's arrow navigation). */
+export function isFlightKey(code: string): boolean {
+  return code in KEY_MAP;
+}
+
 export function applyKey(s: InputState, code: string, pressed: boolean): InputState {
   const action = KEY_MAP[code];
   if (!action) return s;
