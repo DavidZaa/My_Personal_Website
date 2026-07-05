@@ -6,6 +6,8 @@ import { Stars } from "@react-three/drei";
 import { AnimatePresence, motion } from "framer-motion";
 import { lockBodyScroll } from "@/lib/scrollLock";
 import { GameScene, type HudState } from "./GameScene";
+import { FAR_STRUCTURES, NEAR_STRUCTURES } from "./structures";
+import { StructureMesh } from "./StructureMesh";
 import { GAME_OVER_MESSAGE, saveBestScore } from "./store";
 
 export default function FlightMode({ onExit }: { onExit: () => void }) {
@@ -57,6 +59,9 @@ export default function FlightMode({ onExit }: { onExit: () => void }) {
         <ambientLight intensity={0.5} />
         <directionalLight position={[6, 12, 4]} intensity={1.1} />
         <Stars radius={120} depth={60} count={4000} factor={3.6} saturation={0} fade speed={0.4} />
+        {[...NEAR_STRUCTURES, ...FAR_STRUCTURES].map((s) => (
+          <StructureMesh key={s.id} structure={s} />
+        ))}
         <GameScene onHud={setHud} />
       </Canvas>
 
