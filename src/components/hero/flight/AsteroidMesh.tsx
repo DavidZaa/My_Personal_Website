@@ -1,12 +1,10 @@
 "use client";
 
-import { type RefObject } from "react";
-import * as THREE from "three";
-
-/** One pooled asteroid; the scene positions/scales/toggles it each frame. */
-export function AsteroidMesh({ meshRef }: { meshRef: RefObject<THREE.Mesh | null> }) {
+/** One pooled asteroid; the scene positions/scales/toggles it each frame via
+ * its parent group's children. Starts hidden until the sim places it. */
+export function AsteroidMesh() {
   return (
-    <mesh ref={meshRef} visible={false}>
+    <mesh visible={false}>
       <icosahedronGeometry args={[1, 0]} />
       <meshStandardMaterial
         color="#8ca0ff"
