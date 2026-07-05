@@ -6,12 +6,15 @@ import { motion } from "framer-motion";
 import { GlowButton } from "@/components/ui/GlowButton";
 import { profile } from "@/lib/content/profile";
 import { HeroFallback } from "./HeroFallback";
-import { decideHeroMode } from "./heroMode";
+import { decideHeroMode, type HeroMode } from "./heroMode";
 
 const StarSystem = dynamic(() => import("./StarSystem"), {
   ssr: false,
   loading: () => <div className="h-full w-full" />,
 });
+
+// Flight mode is a click-to-enter toy: only loaded when someone takes the helm.
+const FlightMode = dynamic(() => import("./flight/FlightMode"), { ssr: false });
 
 function supportsWebgl(): boolean {
   try {
@@ -24,8 +27,9 @@ function supportsWebgl(): boolean {
 
 export function Hero() {
   // null = undecided (first paint, SSR-safe), then pick 3D or fallback.
-  const [mode, setMode] = useState<"3d" | "fallback" | null>(null);
+  const [mode, setMode] = useState<HeroMode | null>(null);
   const [reduced, setReduced] = useState(false);
+  const [flying, setFlying] = useState(false);
 
   useEffect(() => {
     const raf = requestAnimationFrame(() => {
@@ -43,13 +47,15 @@ export function Hero() {
     <section className="relative h-[calc(100svh-3.5rem)] min-h-[540px] w-full overflow-hidden">
       {/* scene — bottom edge fades out so the section blends into the page */}
       <div className="absolute inset-0 [mask-image:linear-gradient(to_bottom,black_78%,transparent)]">
-        {mode === "3d" && <StarSystem />}
+        {mode === "3d" && !flying && <StarSystem />}
         {mode === "fallback" && (
           <div className="flex h-full items-center justify-center pt-10">
             <HeroFallback animate={!reduced} />
           </div>
         )}
       </div>
+
+      {flying && <FlightMode onExit={() => setFlying(false)} />}
 
       {/* overlay copy */}
       <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 pb-14">
@@ -80,6 +86,11 @@ export function Hero() {
             <GlowButton href="/#dossier" variant="ghost">
               About me
             </GlowButton>
+            {mode === "3d" && (
+              <GlowButton variant="ghost" onClick={() => setFlying(true)}>
+                Take the helm
+              </GlowButton>
+            )}
           </motion.div>
         </div>
       </div>
