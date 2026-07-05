@@ -5,8 +5,6 @@ import { Canvas } from "@react-three/fiber";
 import { Stars } from "@react-three/drei";
 import { AnimatePresence, motion } from "framer-motion";
 import { lockBodyScroll } from "@/lib/scrollLock";
-import { PLANETS } from "../planets";
-import { OrbitRing, PlanetBody, Sun } from "../SystemBodies";
 import { GameScene, type HudState } from "./GameScene";
 import { GAME_OVER_MESSAGE, saveBestScore } from "./store";
 
@@ -54,16 +52,11 @@ export default function FlightMode({ onExit }: { onExit: () => void }) {
         onCreated={({ gl }) => gl.setClearColor("#050510")}
         dpr={[1, 2]}
       >
-        <ambientLight intensity={0.3} />
-        <Stars radius={90} depth={50} count={3000} factor={3.4} saturation={0} fade speed={0.4} />
-        {/* backdrop scenery */}
-        <Sun />
-        {PLANETS.map((p) => (
-          <group key={p.href}>
-            <OrbitRing radius={p.orbit} />
-            <PlanetBody spec={p} />
-          </group>
-        ))}
+        {/* Clean field: bright key light + a distant starfield, so the ship
+            and asteroids read clearly (no sun/planets crowding the play area). */}
+        <ambientLight intensity={0.5} />
+        <directionalLight position={[6, 12, 4]} intensity={1.1} />
+        <Stars radius={120} depth={60} count={4000} factor={3.6} saturation={0} fade speed={0.4} />
         <GameScene onHud={setHud} />
       </Canvas>
 
