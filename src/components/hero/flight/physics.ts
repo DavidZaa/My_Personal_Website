@@ -14,6 +14,8 @@ export interface FlightInput {
   brake: boolean;
   /** -1 (turn down/clockwise) .. +1 (turn up/counter-clockwise), analog */
   turn: number;
+  /** fire the gun this frame (ignored by stepShip; consumed by the game) */
+  fire?: boolean;
 }
 
 export const SHIP = {

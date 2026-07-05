@@ -9,13 +9,29 @@ import {
 } from "./controls";
 
 describe("isFlightKey", () => {
-  it("is true for mapped gameplay keys and false otherwise", () => {
-    for (const code of ["KeyW", "KeyA", "KeyS", "KeyD", "ArrowUp", "ArrowLeft"]) {
+  it("is true for mapped gameplay keys (incl. Space to fire) and false otherwise", () => {
+    for (const code of ["KeyW", "KeyA", "KeyS", "KeyD", "ArrowUp", "ArrowLeft", "Space"]) {
       expect(isFlightKey(code)).toBe(true);
     }
-    for (const code of ["Escape", "KeyK", "Space", "Tab"]) {
+    for (const code of ["Escape", "KeyK", "Tab"]) {
       expect(isFlightKey(code)).toBe(false);
     }
+  });
+});
+
+describe("fire control", () => {
+  it("maps Space to fire and marks the source as keys", () => {
+    const s = applyKey(initialInputState(), "Space", true);
+    expect(s.fireKey).toBe(true);
+    expect(s.lastSource).toBe("keys");
+    expect(resolveFlightInput(s).fire).toBe(true);
+  });
+
+  it("clears fire on release", () => {
+    let s = applyKey(initialInputState(), "Space", true);
+    s = applyKey(s, "Space", false);
+    expect(s.fireKey).toBe(false);
+    expect(resolveFlightInput(s).fire).toBe(false);
   });
 });
 

@@ -9,6 +9,8 @@ export interface InputState {
   pointerTurn: number;
   /** mouse held down */
   pointerThrust: boolean;
+  /** fire key held */
+  fireKey: boolean;
   /** which scheme spoke most recently — steering follows it */
   lastSource: "keys" | "pointer";
 }
@@ -20,11 +22,12 @@ export function initialInputState(): InputState {
     keyTurn: 0,
     pointerTurn: 0,
     pointerThrust: false,
+    fireKey: false,
     lastSource: "keys",
   };
 }
 
-type Action = "thrust" | "brake" | "left" | "right";
+type Action = "thrust" | "brake" | "left" | "right" | "fire";
 
 const KEY_MAP: Record<string, Action> = {
   KeyW: "thrust",
@@ -35,6 +38,7 @@ const KEY_MAP: Record<string, Action> = {
   ArrowLeft: "left",
   KeyD: "right",
   ArrowRight: "right",
+  Space: "fire",
 };
 
 /** Does this key drive the ship? Used to stop gameplay keys from leaking to
@@ -51,6 +55,7 @@ export function applyKey(s: InputState, code: string, pressed: boolean): InputSt
   else if (action === "brake") next.brakeKey = pressed;
   else if (action === "left") next.keyTurn = pressed ? 1 : 0;
   else if (action === "right") next.keyTurn = pressed ? -1 : 0;
+  else if (action === "fire") next.fireKey = pressed;
   return next;
 }
 
@@ -72,5 +77,6 @@ export function resolveFlightInput(s: InputState): FlightInput {
     thrust: s.thrustKey || s.pointerThrust,
     brake: s.brakeKey,
     turn: s.lastSource === "pointer" ? s.pointerTurn : s.keyTurn,
+    fire: s.fireKey,
   };
 }
