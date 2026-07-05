@@ -41,6 +41,11 @@ export function useFlightControls(): MutableRefObject<InputState> {
     const release = () => {
       ref.current = applyPointerThrust(ref.current, false);
     };
+    // Losing focus (alt-tab, click away) swallows the keyup, which would leave
+    // a key stuck "held" — reset all input so nothing keeps firing/thrusting.
+    const reset = () => {
+      ref.current = initialInputState();
+    };
 
     // Capture phase: run before (and pre-empt) the page's bubble-phase listeners.
     window.addEventListener("keydown", down, true);
@@ -48,12 +53,14 @@ export function useFlightControls(): MutableRefObject<InputState> {
     window.addEventListener("mousemove", move);
     window.addEventListener("mousedown", press);
     window.addEventListener("mouseup", release);
+    window.addEventListener("blur", reset);
     return () => {
       window.removeEventListener("keydown", down, true);
       window.removeEventListener("keyup", up, true);
       window.removeEventListener("mousemove", move);
       window.removeEventListener("mousedown", press);
       window.removeEventListener("mouseup", release);
+      window.removeEventListener("blur", reset);
     };
   }, []);
 

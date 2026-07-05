@@ -57,4 +57,15 @@ describe("useFlightControls", () => {
       window.removeEventListener("keydown", pageListener);
     }
   });
+
+  it("clears held keys when the window loses focus (no stuck keys on alt-tab)", () => {
+    const get = mount();
+    fireEvent.keyDown(window, { code: "Space" });
+    fireEvent.keyDown(window, { code: "KeyW" });
+    expect(get().current.fireKey).toBe(true);
+    expect(get().current.thrustKey).toBe(true);
+    fireEvent.blur(window);
+    expect(get().current.fireKey).toBe(false);
+    expect(get().current.thrustKey).toBe(false);
+  });
 });
