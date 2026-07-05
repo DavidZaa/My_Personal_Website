@@ -47,7 +47,7 @@ export default function FlightMode({ onExit }: { onExit: () => void }) {
   return (
     <div className="fixed inset-0 z-50 bg-[#050510]">
       <Canvas
-        camera={{ position: [0, 18, 6], fov: 55 }}
+        camera={{ position: [0, 6.5, 9], fov: 60 }}
         gl={{ antialias: true, alpha: false }}
         onCreated={({ gl }) => gl.setClearColor("#050510")}
         dpr={[1, 2]}

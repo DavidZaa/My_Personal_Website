@@ -87,8 +87,18 @@ export function GameScene({ onHud }: { onHud: (hud: HudState) => void }) {
       }
     }
 
-    // High top-down chase: above and slightly behind, looking at the ship.
-    camera.position.lerp(new THREE.Vector3(g.ship.x, 18, g.ship.z + 6), 0.1);
+    // Chase camera: behind and above the ship, following its heading — the
+    // immersive fly-through-space view, pulled back/up a little so incoming
+    // rocks still read.
+    const back = 8.5;
+    camera.position.lerp(
+      new THREE.Vector3(
+        g.ship.x - Math.cos(g.ship.heading) * back,
+        6.5,
+        g.ship.z - Math.sin(g.ship.heading) * back,
+      ),
+      0.09,
+    );
     camera.lookAt(g.ship.x, 0, g.ship.z);
 
     // Report HUD only when a shown field changes.
