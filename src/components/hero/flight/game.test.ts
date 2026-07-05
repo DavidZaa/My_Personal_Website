@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { newGame, startRun, stepGame, gameShipStart, type GameState } from "./game";
 import { ASTEROID, type Asteroid } from "./asteroid";
 import { BULLET } from "./bullet";
+import { SOLID_STRUCTURES } from "./structures";
 import type { FlightInput } from "./physics";
 
 const NO_INPUT: FlightInput = { thrust: false, brake: false, turn: 0, fire: false };
@@ -139,5 +140,30 @@ describe("stepGame — waves", () => {
     expect(g.wave).toBe(2);
     expect(g.score).toBe(100); // wave * 100 bonus
     expect(g.asteroids.length).toBeGreaterThan(0);
+  });
+});
+
+describe("stepGame — structures", () => {
+  it("costs a life when the ship is inside a solid structure", () => {
+    const s = SOLID_STRUCTURES[0];
+    const g = stepGame(
+      playing({ ship: { x: s.x, z: s.z, vx: 0, vz: 0, heading: 0 }, asteroids: [rock("small", -100, -100)] }),
+      NO_INPUT,
+      0.001,
+    );
+    expect(g.lives).toBe(2);
+    expect(g.invuln).toBeGreaterThan(0);
+  });
+
+  it("bounces an asteroid that is driven into a solid structure", () => {
+    const s = SOLID_STRUCTURES[0];
+    const a: Asteroid = { id: 7, size: "small", x: s.x + s.radius, z: s.z, vx: -3, vz: 0, spin: 0 };
+    const g = stepGame(
+      playing({ ship: { x: -100, z: -100, vx: 0, vz: 0, heading: 0 }, asteroids: [a] }),
+      NO_INPUT,
+      0.001,
+    );
+    const out = g.asteroids.find((x) => x.id === 7)!;
+    expect(out.vx).toBeGreaterThan(0); // reflected outward
   });
 });

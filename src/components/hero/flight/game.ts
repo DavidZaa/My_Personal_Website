@@ -8,6 +8,7 @@ import {
 } from "./asteroid";
 import { BULLET, fireBullet, isBulletAlive, stepBullet, type Bullet } from "./bullet";
 import { circleOverlap } from "./collision";
+import { bounceAsteroid, shipHitsStructure } from "./structures";
 
 export type GameStatus = "start" | "playing" | "over";
 
@@ -66,8 +67,8 @@ export function stepGame(state: GameState, input: FlightInput, dt: number): Game
     cooldown = BULLET.cooldown;
   }
 
-  // Asteroids drift and bounce.
-  let asteroids = state.asteroids.map((a) => driftAsteroid(a, dt));
+  // Asteroids drift, bounce off the arena wall, then ricochet off solids.
+  let asteroids = state.asteroids.map((a) => bounceAsteroid(driftAsteroid(a, dt)));
 
   // Bullet ↔ asteroid: each bolt hits at most one rock.
   const destroyed = new Set<number>();
@@ -94,13 +95,13 @@ export function stepGame(state: GameState, input: FlightInput, dt: number): Game
   invuln = Math.max(0, invuln - dt);
   let nextShip = ship;
   if (invuln === 0) {
-    for (const a of asteroids) {
-      if (circleOverlap(ship.x, ship.z, SHIP_RADIUS, a.x, a.z, ASTEROID[a.size].radius)) {
-        lives -= 1;
-        invuln = INVULN_TIME;
-        nextShip = gameShipStart();
-        break;
-      }
+    const hitRock = asteroids.some((a) =>
+      circleOverlap(ship.x, ship.z, SHIP_RADIUS, a.x, a.z, ASTEROID[a.size].radius),
+    );
+    if (hitRock || shipHitsStructure(ship.x, ship.z, SHIP_RADIUS)) {
+      lives -= 1;
+      invuln = INVULN_TIME;
+      nextShip = gameShipStart();
     }
   }
 
